@@ -44,82 +44,35 @@ body {
   overscroll-behavior: none;
 }
 
-#app {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100dvh;
-  position: relative;
-  background: var(--bg);
-}
+#app { max-width: 480px; margin: 0 auto; min-height: 100dvh; position: relative; background: var(--bg); }
 
 /* ── Header ── */
-.hdr {
-  position: sticky; top: 0; z-index: 20;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border-2);
-  padding: 48px 24px 14px;
-}
+.hdr { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--border-2); padding: 48px 24px 14px; }
 .hdr-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .hdr-label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; color: var(--text-3); text-transform: uppercase; margin-bottom: 2px; }
 .hdr-title { font-size: 26px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
-.hdr-btn {
-  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid var(--border); background: none; color: var(--text-2);
-  font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color .15s, color .15s;
-}
+.hdr-btn { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: none; color: var(--text-2); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s, color .15s; }
 .hdr-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ── Content ── */
 .content { padding: 20px 20px 108px; min-height: calc(100dvh - 70px); }
 
 /* ── Tab bar ── */
-.tabbar {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px;
-  background: var(--surface); border-top: 1px solid var(--border-2);
-  display: flex; padding-bottom: env(safe-area-inset-bottom, 4px); z-index: 20;
-}
-.tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 10px 4px 8px; border: none; background: none; cursor: pointer;
-  color: var(--text-3); font-size: 10.5px; font-weight: 600; letter-spacing: .03em; gap: 4px;
-  transition: color .15s;
-}
+.tabbar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--border-2); display: flex; padding-bottom: env(safe-area-inset-bottom, 4px); z-index: 20; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 4px 8px; border: none; background: none; cursor: pointer; color: var(--text-3); font-size: 10.5px; font-weight: 600; letter-spacing: .03em; gap: 4px; transition: color .15s; }
 .tab.on { color: var(--accent); }
 .tab svg { width: 22px; height: 22px; stroke-width: 1.75; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
 .tab.on svg { stroke-width: 2.25; }
 
 /* ── FAB ── */
-.fab {
-  position: fixed; bottom: 82px; right: 20px; z-index: 15;
-  width: 52px; height: 52px; border-radius: 50%; border: none;
-  background: var(--accent); color: oklch(99% 0.01 252);
-  font-size: 26px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px oklch(38% 0.145 252 / .36);
-  transition: transform .15s; line-height: 1;
-}
+.fab { position: fixed; bottom: 82px; right: 20px; z-index: 15; width: 52px; height: 52px; border-radius: 50%; border: none; background: var(--accent); color: oklch(99% 0.01 252); font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px oklch(38% 0.145 252 / .36); transition: transform .15s; line-height: 1; }
 .fab:active { transform: scale(.93); }
 @media (min-width: 480px) { .fab { right: calc((100vw - 480px) / 2 + 20px); } }
 
 /* ── Overlay + Sheet ── */
-.overlay {
-  position: fixed; inset: 0;
-  background: oklch(17% 0.012 82 / .45);
-  z-index: 40; opacity: 0; pointer-events: none; transition: opacity .25s;
-}
+.overlay { position: fixed; inset: 0; background: oklch(17% 0.012 82 / .45); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .overlay.on { opacity: 1; pointer-events: auto; }
-.sheet {
-  position: fixed; bottom: 0; left: 50%;
-  transform: translateX(-50%) translateY(105%);
-  width: 100%; max-width: 480px;
-  background: var(--surface); border-radius: 22px 22px 0 0;
-  z-index: 41; max-height: 92dvh; overflow-y: auto;
-  transition: transform .32s cubic-bezier(.32,.72,0,1);
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-}
+.sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(105%); width: 100%; max-width: 480px; background: var(--surface); border-radius: 22px 22px 0 0; z-index: 41; max-height: 92dvh; overflow-y: auto; transition: transform .32s cubic-bezier(.32,.72,0,1); padding-bottom: env(safe-area-inset-bottom, 20px); }
 .sheet.on { transform: translateX(-50%) translateY(0); }
 .sheet-drag { width: 38px; height: 4px; background: var(--border); border-radius: 99px; margin: 14px auto 0; }
 .sheet-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 10px; }
@@ -130,27 +83,11 @@ body {
 /* ── Form ── */
 .fg { margin-bottom: 15px; }
 .fl { display: block; font-size: 13.5px; font-weight: 600; color: var(--text-2); margin-bottom: 6px; }
-.fi, .fs {
-  width: 100%; padding: 13px 14px;
-  border: 1.5px solid var(--border); border-radius: var(--r-sm);
-  background: var(--bg); color: var(--text);
-  font-size: 16px; font-family: inherit; outline: none;
-  transition: border-color .15s; appearance: none;
-}
+.fi, .fs { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: var(--bg); color: var(--text); font-size: 16px; font-family: inherit; outline: none; transition: border-color .15s; appearance: none; }
 .fi:focus, .fs:focus { border-color: var(--accent); }
-.fs {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 13px center; cursor: pointer;
-}
-.fta {
-  width: 100%; padding: 13px 14px;
-  border: 1.5px solid var(--border); border-radius: var(--r-sm);
-  background: var(--bg); color: var(--text);
-  font-size: 15px; font-family: inherit; outline: none;
-  transition: border-color .15s; resize: none; line-height: 1.6;
-}
+.fs { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; cursor: pointer; }
+.fta { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: var(--bg); color: var(--text); font-size: 15px; font-family: inherit; outline: none; transition: border-color .15s; resize: none; line-height: 1.6; }
 .fta:focus { border-color: var(--accent); }
-
 .period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .period-item { border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 12px; transition: border-color .15s, background .15s; }
 .period-item.on { border-color: var(--accent); background: var(--accent-lt); }
@@ -160,15 +97,17 @@ body {
 .period-dose { display: none; width: 100%; margin-top: 8px; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 15px; font-family: inherit; background: var(--surface); color: var(--text); outline: none; }
 .period-dose:focus { border-color: var(--accent); }
 .period-item.on .period-dose { display: block; }
-
 .btn-row { display: flex; gap: 10px; margin-top: 6px; }
 .btn-p { flex: 2; padding: 15px; background: var(--accent); color: oklch(99% 0.01 252); border: none; border-radius: var(--r); font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; }
 .btn-p:active { opacity: .82; }
 .btn-s { flex: 1; padding: 15px; background: none; color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--r); font-size: 17px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
-/* ── Section label ── */
+/* ── Section label row (title + optional action) ── */
+.slbl-row { display: flex; align-items: center; justify-content: space-between; margin: 28px 0 12px; }
+.slbl-row:first-child { margin-top: 4px; }
 .slbl { font-size: 11px; font-weight: 700; letter-spacing: .09em; color: var(--text-3); text-transform: uppercase; margin: 28px 0 12px; }
 .slbl:first-child { margin-top: 4px; }
+.slbl-btn { font-size: 13px; font-weight: 600; color: var(--accent); background: none; border: none; cursor: pointer; padding: 2px 0; }
 
 /* ── Today ── */
 .progress-bar-wrap { background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r); padding: 18px 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 18px; }
@@ -177,7 +116,6 @@ body {
 .ring-fg { fill: none; stroke: var(--accent); stroke-width: 5.5; stroke-linecap: round; transition: stroke-dashoffset .45s cubic-bezier(.4,0,.2,1); }
 .progress-info h2 { font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
 .progress-info p { font-size: 14px; color: var(--text-2); margin-top: 2px; }
-
 .period-section { margin-top: 6px; }
 .period-header { font-size: 12.5px; font-weight: 700; color: var(--text-3); letter-spacing: .04em; text-transform: uppercase; padding: 18px 0 8px; display: flex; align-items: center; gap: 7px; }
 .med-row { display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r); padding: 14px 16px; margin-bottom: 8px; transition: border-color .2s, background .2s; }
@@ -209,45 +147,48 @@ body {
 .dc-btn:hover { border-color: var(--accent); color: var(--accent); }
 .dc-btn.del:hover { border-color: var(--red); color: var(--red); }
 
-/* ── Follow-up v2 ── */
-.fu-main {
-  background: var(--accent);
-  color: oklch(99% 0.01 252);
+/* ── 待复诊卡片 ── */
+.appt-card {
   border-radius: var(--r);
-  padding: 22px 22px 20px;
-  margin-bottom: 16px;
+  padding: 16px 18px 14px;
+  margin-bottom: 10px;
+  border: 1.5px solid;
+  transition: box-shadow .15s;
 }
-.fu-main.overdue { background: var(--red); }
-.fu-main.today   { background: var(--warn); }
-.fu-main-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
-.fu-main-meta { flex: 1; min-width: 0; }
-.fu-chip-label { font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; opacity: .65; margin-bottom: 7px; }
-.fu-hosp { font-size: 22px; font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
-.fu-sub  { font-size: 14px; opacity: .8; margin-top: 5px; }
-.fu-count-badge {
-  flex-shrink: 0;
-  padding: 6px 13px;
-  border-radius: 99px;
-  background: oklch(99% 0.01 252 / .18);
-  border: 1px solid oklch(99% 0.01 252 / .25);
-  font-size: 13px; font-weight: 700;
-  white-space: nowrap; text-align: center; line-height: 1.3;
-}
-.fu-count-badge small { display: block; font-size: 10px; font-weight: 600; opacity: .7; margin-top: 1px; }
-.fu-divider { height: 1px; background: oklch(99% 0.01 252 / .2); margin-bottom: 16px; }
-.fu-dates { display: flex; justify-content: space-between; gap: 12px; }
-.fu-date-group {}
-.fu-date-lbl { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .6; margin-bottom: 3px; }
-.fu-date-val { font-size: 17px; font-weight: 700; }
+.appt-card.urg  { border-color: var(--red);  background: var(--red-lt);  }
+.appt-card.warn { border-color: var(--warn); background: var(--warn-lt); }
+.appt-card.ok   { border-color: var(--ok);   background: var(--ok-lt);   }
 
-/* History collapsible list */
+.appt-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.appt-hosp { font-size: 18px; font-weight: 800; line-height: 1.2; flex: 1; }
+.appt-badge { font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+.appt-badge.urg  { background: oklch(48% 0.180 24 / .12); color: var(--red);  }
+.appt-badge.warn { background: oklch(58% 0.150 60 / .12); color: var(--warn); }
+.appt-badge.ok   { background: oklch(48% 0.150 158 / .12); color: var(--ok); }
+
+.appt-sub { font-size: 14px; color: var(--text-2); margin-bottom: 12px; }
+
+.appt-divider { height: 1px; background: oklch(17% 0.012 82 / .08); margin-bottom: 12px; }
+
+.appt-dates { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.appt-date-item { flex: 1; }
+.appt-date-lbl { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 3px; }
+.appt-date-val { font-size: 16px; font-weight: 700; }
+.appt-arrow { font-size: 16px; color: var(--text-3); flex-shrink: 0; }
+.appt-presc { font-size: 13px; color: var(--text-3); margin-bottom: 4px; }
+.appt-notes { font-size: 13px; color: var(--text-2); font-style: italic; margin-bottom: 4px; }
+
+.appt-actions { display: flex; gap: 8px; margin-top: 13px; padding-top: 12px; border-top: 1px solid oklch(17% 0.012 82 / .08); }
+.appt-btn { flex: 1; padding: 9px 4px; border-radius: var(--r-sm); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+.appt-btn-edit { background: none; border: 1px solid oklch(17% 0.012 82 / .15); color: var(--text-2); }
+.appt-btn-edit:hover { border-color: var(--accent); color: var(--accent); }
+.appt-btn-done { background: var(--accent); border: 1px solid var(--accent); color: oklch(99% 0.01 252); }
+.appt-btn-done:active { opacity: .82; }
+
+/* ── 就诊历史可折叠列表（不变） ── */
 .fh-list { display: flex; flex-direction: column; gap: 8px; }
 .fh-item { background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r); overflow: hidden; }
-.fh-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 15px 16px; cursor: pointer; gap: 12px; user-select: none;
-  transition: background .15s;
-}
+.fh-head { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; cursor: pointer; gap: 12px; user-select: none; transition: background .15s; }
 .fh-head:active { background: var(--bg); }
 .fh-head-left { flex: 1; min-width: 0; }
 .fh-hdate { font-size: 15px; font-weight: 700; }
@@ -256,7 +197,6 @@ body {
 .fh-tag { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: var(--bg); border: 1px solid var(--border); color: var(--text-3); }
 .fh-chevron { font-size: 18px; color: var(--text-3); transition: transform .25s cubic-bezier(.4,0,.2,1); display: inline-block; line-height: 1; }
 .fh-chevron.open { transform: rotate(90deg); }
-
 .fh-body { max-height: 0; overflow: hidden; transition: max-height .32s ease; }
 .fh-body.open { max-height: 520px; }
 .fh-inner { border-top: 1px solid var(--border-2); padding: 14px 16px 16px; }
@@ -265,21 +205,9 @@ body {
 .fh-key { font-size: 13px; color: var(--text-3); width: 68px; flex-shrink: 0; padding-top: 1px; font-weight: 500; }
 .fh-val { font-size: 14px; color: var(--text); font-weight: 500; flex: 1; line-height: 1.65; }
 .fh-actions { display: flex; gap: 8px; margin-top: 14px; }
-.fh-edit-btn {
-  flex: 1; padding: 9px 12px;
-  border: 1px solid var(--border); border-radius: var(--r-sm);
-  background: none; color: var(--text-2); font-size: 14px; font-weight: 600;
-  cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s;
-}
+.fh-edit-btn { flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); background: none; color: var(--text-2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
 .fh-edit-btn:hover { border-color: var(--accent); color: var(--accent); }
-.fh-del-btn {
-  flex: 1; padding: 9px 12px;
-  border: 1px solid var(--red-lt); border-radius: var(--r-sm);
-  background: var(--red-lt); color: var(--red);
-  font-size: 14px; font-weight: 600;
-  cursor: pointer; font-family: inherit;
-  transition: background .15s, border-color .15s;
-}
+.fh-del-btn { flex: 1; padding: 9px 12px; border: 1px solid var(--red-lt); border-radius: var(--r-sm); background: var(--red-lt); color: var(--red); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
 .fh-del-btn:hover { background: oklch(92% 0.08 24); border-color: var(--red); }
 
 /* ── Records ── */
@@ -287,27 +215,24 @@ body {
 .stat-card { background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r); padding: 18px 16px; }
 .stat-val { font-size: 34px; font-weight: 900; color: var(--accent); letter-spacing: -.025em; line-height: 1; }
 .stat-lbl { font-size: 13px; color: var(--text-3); margin-top: 5px; }
-
 .cal-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.cal-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: none; color: var(--text-2); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s; }
-.cal-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.cal-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: none; color: var(--text-2); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .cal-month-lbl { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .cal-dh { font-size: 11.5px; font-weight: 600; color: var(--text-3); text-align: center; padding: 4px 0 8px; }
 .cal-d { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 14px; font-weight: 500; color: var(--text-2); }
-.cal-d.c-ok   { background: var(--ok);     color: oklch(98% 0.01 158); font-weight: 700; }
-.cal-d.c-part { background: var(--warn-lt); color: var(--warn); border: 2px solid var(--warn); font-weight: 700; }
-.cal-d.c-miss { background: var(--red-lt);  color: var(--red);  font-weight: 700; }
+.cal-d.c-ok    { background: var(--ok);     color: oklch(98% 0.01 158); font-weight: 700; }
+.cal-d.c-part  { background: var(--warn-lt); color: var(--warn); border: 2px solid var(--warn); font-weight: 700; }
+.cal-d.c-miss  { background: var(--red-lt);  color: var(--red); font-weight: 700; }
 .cal-d.c-today { outline: 2.5px solid var(--accent); outline-offset: 1px; }
-
 .legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; }
 .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-2); }
 .leg-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── Empty state ── */
-.empty { text-align: center; padding: 56px 24px; color: var(--text-3); }
-.empty-icon { font-size: 52px; margin-bottom: 14px; line-height: 1; }
-.empty-text { font-size: 15.5px; line-height: 1.7; }
+.empty { text-align: center; padding: 40px 24px; color: var(--text-3); }
+.empty-icon { font-size: 48px; margin-bottom: 12px; line-height: 1; }
+.empty-text { font-size: 15px; line-height: 1.7; }
 </style>
 </head>
 <body>
@@ -316,7 +241,6 @@ body {
   <main   class="content" id="content"></main>
   <nav    class="tabbar"  id="tabbar"></nav>
   <button class="fab"     id="fab" onclick="A.openAdd()">+</button>
-
   <div class="overlay" id="overlay" onclick="A.closeSheet()"></div>
   <div class="sheet"   id="sheet">
     <div class="sheet-drag"></div>
@@ -329,57 +253,68 @@ body {
 </div>
 
 <script>
-/* ── Utilities ── */
+/* ── 工具函数 ── */
 const today  = () => new Date().toISOString().slice(0, 10);
 const uid    = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const fmt    = d  => { const x = new Date(d + 'T00:00:00'); return `${x.getMonth()+1}月${x.getDate()}日`; };
 const daysTo = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
 
-/* ── Open followup IDs (UI state, not persisted) ── */
+/* ── 已展开的就诊历史 ID 集合（UI 状态，不持久化） ── */
 const openFups = new Set();
 
-/* ── State ── */
+/* ── 全局状态 ── */
 const S = {
   tab: 'today',
-  drugs: [], ins: {}, fups: [],
+  drugs: [], ins: {}, fups: [], appts: [],
   calYM: new Date().toISOString().slice(0, 7),
-  eDrug: null, eFup: null,
+  eDrug: null, eFup: null, eAppt: null,
 
   load() {
     try {
       const r = JSON.parse(localStorage.getItem('medApp_v3') || 'null');
-      if (r) { this.drugs = r.drugs||[]; this.ins = r.ins||{}; this.fups = r.fups||[]; }
-      if (!this.drugs.length && !this.fups.length) this.seed();
+      if (r) {
+        this.drugs = r.drugs || [];
+        this.ins   = r.ins   || {};
+        this.fups  = r.fups  || [];
+        this.appts = r.appts || [];
+      }
+      if (!this.drugs.length && !this.fups.length && !this.appts.length) this.seed();
     } catch { this.seed(); }
   },
+
   save() {
-    localStorage.setItem('medApp_v3', JSON.stringify({ drugs: S.drugs, ins: S.ins, fups: S.fups }));
+    localStorage.setItem('medApp_v3', JSON.stringify({
+      drugs: S.drugs, ins: S.ins, fups: S.fups, appts: S.appts
+    }));
   },
+
   seed() {
     this.drugs = [
-      { id:uid(), name:'苯磺酸氨氯地平片', spec:'5mg/片',   times:[{p:'evening',d:1}],                    meal:'after', inv:24, notes:'降压，睡前效果更佳' },
-      { id:uid(), name:'二甲双胍缓释片',   spec:'500mg/片', times:[{p:'morning',d:1},{p:'evening',d:1}],   meal:'after', inv:42, notes:'餐后服，减少胃肠不适' },
-      { id:uid(), name:'阿托伐他汀钙片',   spec:'20mg/片',  times:[{p:'bedtime',d:1}],                    meal:'with',  inv:5,  notes:'调脂药，睡前服用' },
+      { id:uid(), name:'苯磺酸氨氯地平片', spec:'5mg/片',   times:[{p:'evening',d:1}],                  meal:'after', inv:24, notes:'降压，睡前效果更佳' },
+      { id:uid(), name:'二甲双胍缓释片',   spec:'500mg/片', times:[{p:'morning',d:1},{p:'evening',d:1}], meal:'after', inv:42, notes:'餐后服，减少胃肠不适' },
+      { id:uid(), name:'阿托伐他汀钙片',   spec:'20mg/片',  times:[{p:'bedtime',d:1}],                  meal:'with',  inv:5,  notes:'调脂药，睡前服用' },
+    ];
+    this.appts = [
+      { id:uid(), hospital:'北京协和医院', dept:'内分泌科', doctor:'李主任', condition:'糖尿病复查',
+        lastVisitDate:'2026-03-28', prescDays:28, nextVisitDate:'2026-04-25', notes:'' },
+      { id:uid(), hospital:'北京人民医院', dept:'心内科',   doctor:'王医生', condition:'高血压随访',
+        lastVisitDate:'2026-04-01', prescDays:30, nextVisitDate:'2026-05-10', notes:'' },
     ];
     this.fups = [
-      {
-        id:uid(), date:'2026-03-28', hospital:'北京协和医院', dept:'内分泌科', doctor:'李主任', days:28,
+      { id:uid(), date:'2026-03-28', hospital:'北京协和医院', dept:'内分泌科', doctor:'李主任', days:28,
         advice:'控制饮食，减少碳水摄入；每日步行30分钟以上；坚持监测空腹血糖，目标控制在6.1以下。',
         medChange:'二甲双胍缓释片增至1000mg/次（早晚各一），阿托伐他汀维持20mg不变。',
-        notes:'血糖控制良好，继续当前方案'
-      },
-      {
-        id:uid(), date:'2025-12-15', hospital:'北京协和医院', dept:'内分泌科', doctor:'李主任', days:90,
+        notes:'血糖控制良好，继续当前方案' },
+      { id:uid(), date:'2025-12-15', hospital:'北京协和医院', dept:'内分泌科', doctor:'李主任', days:90,
         advice:'注意控制体重，建议三个月内减重3-5kg；减少高脂饮食，少吃动物内脏。',
         medChange:'新增阿托伐他汀钙片20mg（每晚睡前），苯磺酸氨氯地平维持5mg不变。',
-        notes:'血脂偏高，LDL-C 3.8，开始调脂治疗'
-      },
+        notes:'血脂偏高，LDL-C 3.8，开始调脂治疗' },
     ];
     this.save();
   }
 };
 
-/* ── Periods & Meal labels ── */
+/* ── 常量 ── */
 const PERIODS = [
   { id:'morning', label:'早晨', icon:'🌅', time:'08:00' },
   { id:'noon',    label:'中午', icon:'☀️',  time:'12:00' },
@@ -388,10 +323,11 @@ const PERIODS = [
 ];
 const MEAL = { before:'饭前', after:'饭后', with:'随餐' };
 
-/* ── App ── */
+/* ── 主应用 ── */
 const A = {
   init() { S.load(); this.renderTabbar(); this.render(); },
 
+  /* Tab 栏 */
   renderTabbar() {
     const tabs = [
       { id:'today',    label:'今日',  svg:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' },
@@ -408,6 +344,7 @@ const A = {
 
   go(tab) { S.tab = tab; this.renderTabbar(); this.render(); },
 
+  /* 页头 */
   renderHdr() {
     const now   = new Date();
     const wdays = ['日','一','二','三','四','五','六'];
@@ -423,6 +360,7 @@ const A = {
       </div>`;
   },
 
+  /* 渲染分发 */
   render() {
     this.renderHdr();
     document.getElementById('fab').style.display = (S.tab==='drugs'||S.tab==='followup') ? 'flex' : 'none';
@@ -433,7 +371,7 @@ const A = {
     if (S.tab==='records')  c.innerHTML = this.vRecords();
   },
 
-  /* ══ TODAY ══════════════════════════════════════════ */
+  /* ══ 今日用药 ══════════════════════════════════════ */
   vToday() {
     const t  = today();
     const ci = S.ins[t] || {};
@@ -442,16 +380,11 @@ const A = {
     items.forEach(({drug, p}) => { if (ci[`${drug.id}:${p.id}`]) done++; });
     const pct = total ? Math.round(done/total*100) : 100;
     const R = 26, C = 2*Math.PI*R;
-
     const greet = (() => {
       const h = new Date().getHours();
-      if (h<6)  return '夜深了';
-      if (h<11) return '早上好';
-      if (h<14) return '中午好';
-      if (h<18) return '下午好';
-      return '晚上好';
+      if (h<6) return '夜深了'; if (h<11) return '早上好';
+      if (h<14) return '中午好'; if (h<18) return '下午好'; return '晚上好';
     })();
-
     const topBar = `
       <div class="progress-bar-wrap">
         <svg class="ring-svg" viewBox="0 0 64 64">
@@ -464,35 +397,24 @@ const A = {
           <p>${greet}，已服 ${done} / ${total} 次</p>
         </div>
       </div>`;
-
     if (!items.length) return topBar + `<div class="empty"><div class="empty-icon">💊</div><div class="empty-text">药箱还是空的<br>前往「药箱」标签添加药品</div></div>`;
-
     const byP = {};
     items.forEach(it => { (byP[it.p.id] = byP[it.p.id]||{p:it.p,list:[]}).list.push(it); });
-
-    return topBar + PERIODS.filter(p => byP[p.id]).map(p => {
-      return `
-        <div class="period-section">
-          <div class="period-header">
-            <span>${p.icon}</span><span>${p.label}</span>
-            <span style="margin-left:auto;font-size:12px">${p.time}</span>
-          </div>
-          ${byP[p.id].list.map(({drug, dose}) => {
-            const key = `${drug.id}:${p.id}`;
-            const isDone = !!ci[key];
-            return `
-              <div class="med-row ${isDone?'done-row':''}">
-                <div class="med-row-info">
-                  <div class="med-row-name">${drug.name}</div>
-                  <div class="med-row-sub">${dose}片 · ${MEAL[drug.meal]||''}</div>
-                </div>
-                <button class="tick-btn ${isDone?'done':''}" onclick="A.tick('${drug.id}','${p.id}')">
-                  ${isDone?'✓':''}
-                </button>
-              </div>`;
-          }).join('')}
-        </div>`;
-    }).join('');
+    return topBar + PERIODS.filter(p => byP[p.id]).map(p =>
+      `<div class="period-section">
+        <div class="period-header"><span>${p.icon}</span><span>${p.label}</span><span style="margin-left:auto;font-size:12px">${p.time}</span></div>
+        ${byP[p.id].list.map(({drug, dose}) => {
+          const key = `${drug.id}:${p.id}`, isDone = !!ci[key];
+          return `<div class="med-row ${isDone?'done-row':''}">
+            <div class="med-row-info">
+              <div class="med-row-name">${drug.name}</div>
+              <div class="med-row-sub">${dose}片 · ${MEAL[drug.meal]||''}</div>
+            </div>
+            <button class="tick-btn ${isDone?'done':''}" onclick="A.tick('${drug.id}','${p.id}')">${isDone?'✓':''}</button>
+          </div>`;
+        }).join('')}
+      </div>`
+    ).join('');
   },
 
   todayItems() {
@@ -508,8 +430,7 @@ const A = {
   tick(drugId, pId) {
     const t = today();
     if (!S.ins[t]) S.ins[t] = {};
-    const key = `${drugId}:${pId}`;
-    const was = S.ins[t][key];
+    const key = `${drugId}:${pId}`, was = S.ins[t][key];
     S.ins[t][key] = !was;
     const drug = S.drugs.find(d=>d.id===drugId);
     if (drug) { const te = drug.times.find(tt=>tt.p===pId); if(te) drug.inv = Math.max(0, drug.inv+(was?te.d:-te.d)); }
@@ -522,7 +443,7 @@ const A = {
     Notification.requestPermission().then(p => alert(p==='granted' ? '通知已开启！' : '请在浏览器设置中允许通知权限。'));
   },
 
-  /* ══ DRUGS ══════════════════════════════════════════ */
+  /* ══ 我的药箱 ══════════════════════════════════════ */
   vDrugs() {
     if (!S.drugs.length) return `<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">药箱还是空的<br>点击右下角 + 添加第一个药品</div></div>`;
     return S.drugs.map(drug => {
@@ -534,140 +455,140 @@ const A = {
       if (dLeft<=3)      { bc='badge-red';  bt=`仅剩${dLeft}天`; fc='var(--red)'; }
       else if (dLeft<=7) { bc='badge-warn'; bt=`剩余${dLeft}天`; fc='var(--warn)'; }
       else               { bc='badge-ok';   bt=`剩余${dLeft}天`; fc='var(--ok)'; }
-      return `
-        <div class="drug-card">
-          <div class="drug-card-top">
-            <div class="dc-left">
-              <div class="dc-name">${drug.name}</div>
-              ${drug.spec?`<div class="dc-spec">${drug.spec}</div>`:''}
-            </div>
-            <span class="badge ${bc}">${bt}</span>
+      return `<div class="drug-card">
+        <div class="drug-card-top">
+          <div class="dc-left">
+            <div class="dc-name">${drug.name}</div>
+            ${drug.spec?`<div class="dc-spec">${drug.spec}</div>`:''}
           </div>
-          <div class="dc-sched">每日：${sched} · ${MEAL[drug.meal]||''}</div>
-          ${drug.notes?`<div class="dc-notes">${drug.notes}</div>`:''}
-          <div class="inv-wrap">
-            <div class="inv-meta"><span>库存 ${drug.inv} 片</span><span>${dLeft===999?'—':dLeft+' 天'}</span></div>
-            <div class="inv-track"><div class="inv-fill" style="width:${pct}%;background:${fc}"></div></div>
-          </div>
-          <div class="dc-actions">
-            <button class="dc-btn" onclick="A.openDrug('${drug.id}')">编辑</button>
-            <button class="dc-btn" onclick="A.restock('${drug.id}')">补库存</button>
-            <button class="dc-btn del" onclick="A.delDrug('${drug.id}')">删除</button>
-          </div>
-        </div>`;
+          <span class="badge ${bc}">${bt}</span>
+        </div>
+        <div class="dc-sched">每日：${sched} · ${MEAL[drug.meal]||''}</div>
+        ${drug.notes?`<div class="dc-notes">${drug.notes}</div>`:''}
+        <div class="inv-wrap">
+          <div class="inv-meta"><span>库存 ${drug.inv} 片</span><span>${dLeft===999?'—':dLeft+' 天'}</span></div>
+          <div class="inv-track"><div class="inv-fill" style="width:${pct}%;background:${fc}"></div></div>
+        </div>
+        <div class="dc-actions">
+          <button class="dc-btn" onclick="A.openDrug('${drug.id}')">编辑</button>
+          <button class="dc-btn" onclick="A.restock('${drug.id}')">补库存</button>
+          <button class="dc-btn del" onclick="A.delDrug('${drug.id}')">删除</button>
+        </div>
+      </div>`;
     }).join('');
   },
 
   restock(id) {
-    const drug = S.drugs.find(d=>d.id===id);
-    if (!drug) return;
+    const drug = S.drugs.find(d=>d.id===id); if (!drug) return;
     const n = parseInt(prompt(`为「${drug.name}」补充库存（片数）：`));
     if (isNaN(n)||n<=0) return;
     drug.inv += n; S.save(); this.render();
   },
-
   delDrug(id) {
     if (!confirm('确认删除此药品？')) return;
     S.drugs = S.drugs.filter(d=>d.id!==id); S.save(); this.render();
   },
 
-  /* ══ FOLLOWUP v2 ════════════════════════════════════ */
+  /* ══ 复诊计划（上：待复诊 / 下：就诊历史） ══════════ */
   vFollowup() {
-    if (!S.fups.length) {
-      return `<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">还没有复诊记录<br>点击右下角 + 添加就诊信息</div></div>`;
-    }
+    /* ── 上区：待复诊 ── */
+    let apptSection = '';
+    if (!S.appts.length) {
+      apptSection = `<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">还没有复诊计划<br>点击右下角 + 添加复诊提醒</div></div>`;
+    } else {
+      const sorted = [...S.appts].sort((a,b) => a.nextVisitDate.localeCompare(b.nextVisitDate));
+      apptSection = sorted.map(a => {
+        const diff = daysTo(today(), a.nextVisitDate);
+        /* 颜色等级 */
+        let cls, badgeCls, badgeTxt;
+        if (diff < 0)       { cls='urg';  badgeCls='urg';  badgeTxt=`已超期 ${Math.abs(diff)} 天`; }
+        else if (diff <= 3) { cls='urg';  badgeCls='urg';  badgeTxt=`还有 ${diff} 天`; }
+        else if (diff <= 7) { cls='warn'; badgeCls='warn'; badgeTxt=`还有 ${diff} 天`; }
+        else                { cls='ok';   badgeCls='ok';   badgeTxt=`还有 ${diff} 天`; }
 
-    const sorted  = [...S.fups].sort((a,b) => b.date.localeCompare(a.date));
-    const latest  = sorted[0];
-    const nd      = new Date(latest.date + 'T00:00:00');
-    nd.setDate(nd.getDate() + latest.days);
-    const nextStr = nd.toISOString().slice(0, 10);
-    const diff    = daysTo(today(), nextStr);
-
-    /* ── 顶部主卡片 ── */
-    let cardCls = 'fu-main';
-    let badgeTxt, badgeSub;
-    if (diff < 0)      { cardCls += ' overdue'; badgeTxt = `超期${Math.abs(diff)}天`; badgeSub = '请尽快就诊'; }
-    else if (diff===0) { cardCls += ' today';   badgeTxt = '今天';   badgeSub = '请记得前往就诊'; }
-    else               { badgeTxt = `还有${diff}天`; badgeSub = `${fmt(nextStr)}复诊`; }
-
-    const mainCard = `
-      <div class="${cardCls}">
-        <div class="fu-main-top">
-          <div class="fu-main-meta">
-            <div class="fu-chip-label">最近就诊</div>
-            <div class="fu-hosp">${latest.hospital}</div>
-            <div class="fu-sub">${[latest.dept, latest.doctor].filter(Boolean).join(' · ')}</div>
+        const subParts = [a.dept, a.doctor, a.condition].filter(Boolean);
+        return `<div class="appt-card ${cls}">
+          <div class="appt-top">
+            <div class="appt-hosp">${a.hospital}</div>
+            <span class="appt-badge ${badgeCls}">${badgeTxt}</span>
           </div>
-          <div class="fu-count-badge">
-            ${badgeTxt}
-            <small>${badgeSub}</small>
-          </div>
-        </div>
-        <div class="fu-divider"></div>
-        <div class="fu-dates">
-          <div class="fu-date-group">
-            <div class="fu-date-lbl">上次就诊</div>
-            <div class="fu-date-val">${fmt(latest.date)}</div>
-          </div>
-          <div class="fu-date-group" style="text-align:right">
-            <div class="fu-date-lbl">预计复诊</div>
-            <div class="fu-date-val">${fmt(nextStr)}</div>
-          </div>
-        </div>
-      </div>`;
-
-    /* ── 就诊历史可折叠列表 ── */
-    const canDelete = sorted.length > 1;
-    const histItems = sorted.map(f => {
-      const isOpen = openFups.has(f.id);
-      const rows = [
-        f.dept    && { k:'科室',     v:f.dept },
-        f.doctor  && { k:'接诊医生', v:f.doctor },
-        { k:'处方天数', v:f.days + '天' },
-        f.advice    && { k:'医生建议', v:f.advice },
-        f.medChange && { k:'用药调整', v:f.medChange },
-        f.notes     && { k:'备注',     v:f.notes },
-      ].filter(Boolean);
-
-      return `
-        <div class="fh-item">
-          <div class="fh-head" onclick="A.toggleFh('${f.id}')">
-            <div class="fh-head-left">
-              <div class="fh-hdate">${fmt(f.date)}</div>
-              <div class="fh-hhosp">${f.hospital}</div>
+          ${subParts.length ? `<div class="appt-sub">${subParts.join(' · ')}</div>` : ''}
+          <div class="appt-divider"></div>
+          <div class="appt-dates">
+            <div class="appt-date-item">
+              <div class="appt-date-lbl">上次就诊</div>
+              <div class="appt-date-val">${a.lastVisitDate ? fmt(a.lastVisitDate) : '—'}</div>
             </div>
-            <div class="fh-head-right">
-              <span class="fh-tag">${f.days}天</span>
-              <span class="fh-chevron ${isOpen?'open':''}" id="fhc-${f.id}">›</span>
+            <div class="appt-arrow">→</div>
+            <div class="appt-date-item" style="text-align:right">
+              <div class="appt-date-lbl">复诊时间</div>
+              <div class="appt-date-val">${fmt(a.nextVisitDate)}</div>
             </div>
           </div>
-          <div class="fh-body ${isOpen?'open':''}" id="fhb-${f.id}">
-            <div class="fh-inner">
-              <div class="fh-detail-rows">
-                ${rows.map(r=>`
-                  <div class="fh-row">
-                    <span class="fh-key">${r.k}</span>
-                    <span class="fh-val">${r.v}</span>
-                  </div>`).join('')}
-              </div>
-              <div class="fh-actions">
-                <button class="fh-edit-btn" onclick="A.openFup('${f.id}')">编辑</button>
-                ${canDelete ? `<button class="fh-del-btn" onclick="A.delFup('${f.id}')">删除记录</button>` : ''}
-              </div>
-            </div>
+          ${a.prescDays ? `<div class="appt-presc">处方天数：${a.prescDays} 天</div>` : ''}
+          ${a.notes ? `<div class="appt-notes">${a.notes}</div>` : ''}
+          <div class="appt-actions">
+            <button class="appt-btn appt-btn-edit" onclick="A.openAppt('${a.id}')">编辑</button>
+            <button class="appt-btn appt-btn-done" onclick="A.markDone('${a.id}')">标记已就诊 ✓</button>
           </div>
         </div>`;
-    }).join('');
+      }).join('');
+    }
 
-    return mainCard + `<div class="slbl">就诊历史</div><div class="fh-list">${histItems}</div>`;
+    /* ── 下区：就诊历史（保持原样，新增「+ 记录历史」入口） ── */
+    const canDelete = S.fups.length > 1;
+    const histBody = S.fups.length
+      ? [...S.fups].sort((a,b)=>b.date.localeCompare(a.date)).map(f => {
+          const isOpen = openFups.has(f.id);
+          const rows = [
+            f.dept    && { k:'科室',     v:f.dept },
+            f.doctor  && { k:'接诊医生', v:f.doctor },
+            { k:'处方天数', v:f.days+'天' },
+            f.advice    && { k:'医生建议', v:f.advice },
+            f.medChange && { k:'用药调整', v:f.medChange },
+            f.notes     && { k:'备注',     v:f.notes },
+          ].filter(Boolean);
+          return `<div class="fh-item">
+            <div class="fh-head" onclick="A.toggleFh('${f.id}')">
+              <div class="fh-head-left">
+                <div class="fh-hdate">${fmt(f.date)}</div>
+                <div class="fh-hhosp">${f.hospital}</div>
+              </div>
+              <div class="fh-head-right">
+                <span class="fh-tag">${f.days}天</span>
+                <span class="fh-chevron ${isOpen?'open':''}" id="fhc-${f.id}">›</span>
+              </div>
+            </div>
+            <div class="fh-body ${isOpen?'open':''}" id="fhb-${f.id}">
+              <div class="fh-inner">
+                <div class="fh-detail-rows">
+                  ${rows.map(r=>`<div class="fh-row"><span class="fh-key">${r.k}</span><span class="fh-val">${r.v}</span></div>`).join('')}
+                </div>
+                <div class="fh-actions">
+                  <button class="fh-edit-btn" onclick="A.openFup('${f.id}')">编辑</button>
+                  ${canDelete?`<button class="fh-del-btn" onclick="A.delFup('${f.id}')">删除记录</button>`:''}
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join('')
+      : `<div class="empty" style="padding:28px 0"><div class="empty-text">暂无历史记录</div></div>`;
+
+    return `
+      <div class="slbl" style="margin-top:4px">待复诊</div>
+      ${apptSection}
+      <div class="slbl-row">
+        <span class="slbl" style="margin:0">就诊历史</span>
+        <button class="slbl-btn" onclick="A.openFup(null)">+ 记录历史</button>
+      </div>
+      <div class="fh-list">${histBody}</div>`;
   },
 
+  /* 展开/折叠就诊历史（直接操作 DOM，避免闪烁） */
   toggleFh(id) {
     if (openFups.has(id)) openFups.delete(id); else openFups.add(id);
-    /* 直接操作 DOM，避免整页重渲染造成闪烁 */
-    const body = document.getElementById('fhb-' + id);
-    const chev = document.getElementById('fhc-' + id);
+    const body = document.getElementById('fhb-'+id);
+    const chev = document.getElementById('fhc-'+id);
     if (body) body.classList.toggle('open', openFups.has(id));
     if (chev) chev.classList.toggle('open', openFups.has(id));
   },
@@ -679,7 +600,26 @@ const A = {
     S.save(); this.render();
   },
 
-  /* ══ RECORDS ════════════════════════════════════════ */
+  /* 标记已就诊：appts → fups */
+  markDone(id) {
+    if (!confirm('确认标记为已就诊？该记录将自动归入就诊历史。')) return;
+    const a = S.appts.find(ap=>ap.id===id); if (!a) return;
+    S.fups.push({
+      id:        uid(),
+      date:      today(),
+      hospital:  a.hospital,
+      dept:      a.dept      || '',
+      doctor:    a.doctor    || '',
+      days:      a.prescDays || 30,
+      advice:    '',
+      medChange: '',
+      notes:     a.notes     || '',
+    });
+    S.appts = S.appts.filter(ap=>ap.id!==id);
+    S.save(); this.render();
+  },
+
+  /* ══ 用药记录 ══════════════════════════════════════ */
   vRecords() {
     const r7  = this.adherence(7);
     const r30 = this.adherence(30);
@@ -698,22 +638,17 @@ const A = {
 
   renderCal() {
     const [y,m] = S.calYM.split('-').map(Number);
-    const first  = new Date(y, m-1, 1);
-    const last   = new Date(y, m, 0);
-    const todayS = today();
+    const first = new Date(y, m-1, 1), last = new Date(y, m, 0), todayS = today();
     const mL = ['一','二','三','四','五','六','七','八','九','十','十一','十二'];
     const dh = ['日','一','二','三','四','五','六'].map(d=>`<div class="cal-dh">${d}</div>`).join('');
     let days = '';
     for (let i=0; i<first.getDay(); i++) days += '<div></div>';
     for (let d=1; d<=last.getDate(); d++) {
-      const ds  = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const ds = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const adh = this.dayAdh(ds);
-      let cls   = 'cal-d';
+      let cls = 'cal-d';
       if (ds===todayS) cls += ' c-today';
-      if      (adh===null) {}
-      else if (adh===1)    cls += ' c-ok';
-      else if (adh>0)      cls += ' c-part';
-      else                 cls += ' c-miss';
+      if (adh===null) {} else if (adh===1) cls += ' c-ok'; else if (adh>0) cls += ' c-part'; else cls += ' c-miss';
       days += `<div class="${cls}">${d}</div>`;
     }
     return `
@@ -747,82 +682,65 @@ const A = {
   calPrev() {
     const [y,m] = S.calYM.split('-').map(Number);
     const p = new Date(y, m-2, 1);
-    S.calYM = `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}`;
-    this.render();
+    S.calYM = `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}`; this.render();
   },
   calNext() {
     const [y,m] = S.calYM.split('-').map(Number);
     const n = new Date(y, m, 1);
-    S.calYM = `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
-    this.render();
+    S.calYM = `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`; this.render();
   },
 
-  /* ══ SHEETS ═════════════════════════════════════════ */
+  /* ══ 底部表单 ══════════════════════════════════════ */
   openAdd() {
     if (S.tab==='drugs')    this.openDrug(null);
-    if (S.tab==='followup') this.openFup(null);
+    if (S.tab==='followup') this.openAppt(null);  /* FAB 打开待复诊表单 */
   },
 
-  openDrug(id) {
-    const drug = id ? S.drugs.find(d=>d.id===id) : null;
-    S.eDrug = id||null;
-    document.getElementById('sheetTitle').textContent = drug ? '编辑药品' : '添加药品';
-    const pHTML = PERIODS.map(p => {
-      const ex = drug && drug.times.find(t=>t.p===p.id);
-      return `
-        <div class="period-item ${ex?'on':''}" id="pi-${p.id}">
-          <div class="period-row">
-            <input type="checkbox" class="period-cb" id="pc-${p.id}" ${ex?'checked':''} onchange="A.pcChange('${p.id}')">
-            <label class="period-lbl" for="pc-${p.id}">${p.icon} ${p.label}</label>
-          </div>
-          <input type="number" class="period-dose" id="pd-${p.id}" value="${ex?ex.d:1}" min="0.5" step="0.5" placeholder="片数">
-        </div>`;
-    }).join('');
+  /* 待复诊：新增/编辑 */
+  openAppt(id) {
+    const a = id ? S.appts.find(ap=>ap.id===id) : null;
+    S.eAppt = id||null;
+    document.getElementById('sheetTitle').textContent = a ? '编辑复诊计划' : '添加复诊计划';
     document.getElementById('sheetBody').innerHTML = `
-      <div class="fg"><label class="fl">药品名称</label><input class="fi" id="dn" placeholder="如：阿司匹林肠溶片" value="${drug?drug.name:''}"></div>
-      <div class="fg"><label class="fl">规格</label><input class="fi" id="ds" placeholder="如：100mg/片" value="${drug?drug.spec||'':''}"></div>
-      <div class="fg"><label class="fl">服药时间（可多选）</label><div class="period-grid">${pHTML}</div></div>
-      <div class="fg"><label class="fl">用餐时间</label>
-        <select class="fs" id="dm">
-          <option value="before" ${drug&&drug.meal==='before'?'selected':''}>饭前</option>
-          <option value="after"  ${!drug||drug.meal==='after'?'selected':''}>饭后</option>
-          <option value="with"   ${drug&&drug.meal==='with'?'selected':''}>随餐</option>
+      <div class="fg"><label class="fl">就诊医院</label><input class="fi" id="ah" placeholder="如：北京协和医院" value="${a?a.hospital:''}"></div>
+      <div class="fg"><label class="fl">科室（可选）</label><input class="fi" id="ade" placeholder="如：内分泌科" value="${a?a.dept||'':''}"></div>
+      <div class="fg"><label class="fl">接诊医生（可选）</label><input class="fi" id="adr" placeholder="如：李主任" value="${a?a.doctor||'':''}"></div>
+      <div class="fg"><label class="fl">就诊原因 / 病种（可选）</label><input class="fi" id="aco" placeholder="如：高血压随访" value="${a?a.condition||'':''}"></div>
+      <div class="fg"><label class="fl">上次就诊日期（可选）</label><input class="fi" type="date" id="alv" value="${a?a.lastVisitDate||'':''}"></div>
+      <div class="fg"><label class="fl">处方天数（可选，仅供参考）</label>
+        <select class="fs" id="apd">
+          <option value="0">不填</option>
+          ${[7,14,28,30,60,90].map(n=>`<option value="${n}" ${a&&a.prescDays===n?'selected':''}>${n} 天</option>`).join('')}
         </select>
       </div>
-      <div class="fg"><label class="fl">当前库存（片）</label><input class="fi" type="number" id="di" placeholder="0" min="0" value="${drug?drug.inv:''}"></div>
-      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="dn2" placeholder="服药注意事项" value="${drug?drug.notes||'':''}"></div>
-      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveDrug()">保存</button></div>`;
+      <div class="fg"><label class="fl">复诊时间（必填）</label><input class="fi" type="date" id="anv" value="${a?a.nextVisitDate:today()}" required></div>
+      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="ano" placeholder="其他注意事项" value="${a?a.notes||'':''}"></div>
+      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveAppt()">保存</button></div>`;
     this.showSheet();
   },
 
-  pcChange(pid) {
-    const cb = document.getElementById(`pc-${pid}`);
-    document.getElementById(`pi-${pid}`).classList.toggle('on', cb.checked);
-  },
-
-  saveDrug() {
-    const name = document.getElementById('dn').value.trim();
-    if (!name) return alert('请输入药品名称。');
-    const times = [];
-    PERIODS.forEach(p => {
-      const cb = document.getElementById(`pc-${p.id}`);
-      if (cb&&cb.checked) times.push({ p:p.id, d:parseFloat(document.getElementById(`pd-${p.id}`).value)||1 });
-    });
-    if (!times.length) return alert('请至少勾选一个服药时间。');
-    const drug = {
-      id:    S.eDrug||uid(),
-      name,
-      spec:  document.getElementById('ds').value.trim(),
-      times,
-      meal:  document.getElementById('dm').value,
-      inv:   parseInt(document.getElementById('di').value)||0,
-      notes: document.getElementById('dn2').value.trim(),
+  saveAppt() {
+    const hosp = document.getElementById('ah').value.trim();
+    const nv   = document.getElementById('anv').value;
+    if (!hosp) return alert('请输入就诊医院。');
+    if (!nv)   return alert('请设置复诊时间。');
+    const a = {
+      id:            S.eAppt||uid(),
+      hospital:      hosp,
+      dept:          document.getElementById('ade').value.trim(),
+      doctor:        document.getElementById('adr').value.trim(),
+      condition:     document.getElementById('aco').value.trim(),
+      lastVisitDate: document.getElementById('alv').value,
+      prescDays:     parseInt(document.getElementById('apd').value)||0,
+      nextVisitDate: nv,
+      notes:         document.getElementById('ano').value.trim(),
     };
-    if (S.eDrug) { const i=S.drugs.findIndex(d=>d.id===S.eDrug); if(i>=0) S.drugs[i]=drug; }
-    else S.drugs.push(drug);
+    if (S.eAppt) { const i=S.appts.findIndex(ap=>ap.id===S.eAppt); if(i>=0) S.appts[i]=a; }
+    else S.appts.push(a);
     S.save(); this.closeSheet(); this.render();
   },
 
+  /* 就诊历史：新增/编辑（逻辑保持原样） */
   openFup(id) {
     const f = id ? S.fups.find(ff=>ff.id===id) : null;
     S.eFup = id||null;
@@ -838,14 +756,12 @@ const A = {
         </select>
       </div>
       <div class="fg"><label class="fl">医生建议 / 医嘱（可选）</label>
-        <textarea class="fta" id="fad" rows="3" placeholder="如：低盐饮食，每日监测血压，坚持步行…">${f?f.advice||'':''}</textarea>
+        <textarea class="fta" id="fad" rows="3" placeholder="如：低盐饮食，每日监测血压…">${f?f.advice||'':''}</textarea>
       </div>
       <div class="fg"><label class="fl">用药调整情况（可选）</label>
         <textarea class="fta" id="fmc" rows="2" placeholder="如：苯磺酸氨氯地平从5mg增至10mg…">${f?f.medChange||'':''}</textarea>
       </div>
-      <div class="fg"><label class="fl">备注（可选）</label>
-        <input class="fi" id="fn" placeholder="如：血压控制良好" value="${f?f.notes||'':''}">
-      </div>
+      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="fn" placeholder="如：血压控制良好" value="${f?f.notes||'':''}"></div>
       <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveFup()">保存</button></div>`;
     this.showSheet();
   },
@@ -869,17 +785,73 @@ const A = {
     S.save(); this.closeSheet(); this.render();
   },
 
+  /* 药品：新增/编辑 */
+  openDrug(id) {
+    const drug = id ? S.drugs.find(d=>d.id===id) : null;
+    S.eDrug = id||null;
+    document.getElementById('sheetTitle').textContent = drug ? '编辑药品' : '添加药品';
+    const pHTML = PERIODS.map(p => {
+      const ex = drug && drug.times.find(t=>t.p===p.id);
+      return `<div class="period-item ${ex?'on':''}" id="pi-${p.id}">
+        <div class="period-row">
+          <input type="checkbox" class="period-cb" id="pc-${p.id}" ${ex?'checked':''} onchange="A.pcChange('${p.id}')">
+          <label class="period-lbl" for="pc-${p.id}">${p.icon} ${p.label}</label>
+        </div>
+        <input type="number" class="period-dose" id="pd-${p.id}" value="${ex?ex.d:1}" min="0.5" step="0.5" placeholder="片数">
+      </div>`;
+    }).join('');
+    document.getElementById('sheetBody').innerHTML = `
+      <div class="fg"><label class="fl">药品名称</label><input class="fi" id="dn" placeholder="如：阿司匹林肠溶片" value="${drug?drug.name:''}"></div>
+      <div class="fg"><label class="fl">规格</label><input class="fi" id="ds" placeholder="如：100mg/片" value="${drug?drug.spec||'':''}"></div>
+      <div class="fg"><label class="fl">服药时间（可多选）</label><div class="period-grid">${pHTML}</div></div>
+      <div class="fg"><label class="fl">用餐时间</label>
+        <select class="fs" id="dm">
+          <option value="before" ${drug&&drug.meal==='before'?'selected':''}>饭前</option>
+          <option value="after"  ${!drug||drug.meal==='after'?'selected':''}>饭后</option>
+          <option value="with"   ${drug&&drug.meal==='with'?'selected':''}>随餐</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">当前库存（片）</label><input class="fi" type="number" id="di" placeholder="0" min="0" value="${drug?drug.inv:''}"></div>
+      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="dn2" placeholder="服药注意事项" value="${drug?drug.notes||'':''}"></div>
+      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveDrug()">保存</button></div>`;
+    this.showSheet();
+  },
+
+  pcChange(pid) {
+    document.getElementById(`pi-${pid}`).classList.toggle('on', document.getElementById(`pc-${pid}`).checked);
+  },
+
+  saveDrug() {
+    const name = document.getElementById('dn').value.trim();
+    if (!name) return alert('请输入药品名称。');
+    const times = [];
+    PERIODS.forEach(p => {
+      const cb = document.getElementById(`pc-${p.id}`);
+      if (cb&&cb.checked) times.push({ p:p.id, d:parseFloat(document.getElementById(`pd-${p.id}`).value)||1 });
+    });
+    if (!times.length) return alert('请至少勾选一个服药时间。');
+    const drug = {
+      id: S.eDrug||uid(), name,
+      spec:  document.getElementById('ds').value.trim(),
+      times, meal: document.getElementById('dm').value,
+      inv:   parseInt(document.getElementById('di').value)||0,
+      notes: document.getElementById('dn2').value.trim(),
+    };
+    if (S.eDrug) { const i=S.drugs.findIndex(d=>d.id===S.eDrug); if(i>=0) S.drugs[i]=drug; }
+    else S.drugs.push(drug);
+    S.save(); this.closeSheet(); this.render();
+  },
+
   showSheet() {
     document.getElementById('overlay').classList.add('on');
     document.getElementById('sheet').classList.add('on');
     document.body.style.overflow = 'hidden';
   },
-
   closeSheet() {
     document.getElementById('overlay').classList.remove('on');
     document.getElementById('sheet').classList.remove('on');
     document.body.style.overflow = '';
-    S.eDrug = S.eFup = null;
+    S.eDrug = S.eFup = S.eAppt = null;
   },
 };
 
