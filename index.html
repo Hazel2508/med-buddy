@@ -233,6 +233,37 @@ body {
 .empty { text-align: center; padding: 40px 24px; color: var(--text-3); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; line-height: 1; }
 .empty-text { font-size: 15px; line-height: 1.7; }
+
+/* ── 大字体模式 ── */
+body.font-lg { font-size: 19px; }
+body.font-lg .hdr-title { font-size: 30px; }
+body.font-lg .progress-info h2 { font-size: 24px; }
+body.font-lg .progress-info p { font-size: 17px; }
+body.font-lg .period-header { font-size: 15px; }
+body.font-lg .med-row-name { font-size: 20px; }
+body.font-lg .med-row-sub { font-size: 16px; }
+body.font-lg .dc-name { font-size: 22px; }
+body.font-lg .dc-spec { font-size: 16px; }
+body.font-lg .dc-sched { font-size: 17px; }
+body.font-lg .dc-notes { font-size: 16px; }
+body.font-lg .badge { font-size: 13px; }
+body.font-lg .stat-val { font-size: 40px; }
+body.font-lg .stat-lbl { font-size: 16px; }
+body.font-lg .tab { font-size: 13px; }
+body.font-lg .sheet-title { font-size: 22px; }
+body.font-lg .fl { font-size: 16px; }
+body.font-lg .fi, body.font-lg .fs, body.font-lg .fta { font-size: 18px; }
+body.font-lg .btn-p, body.font-lg .btn-s { font-size: 19px; }
+body.font-lg .appt-hosp { font-size: 22px; }
+body.font-lg .appt-sub { font-size: 17px; }
+body.font-lg .appt-date-val { font-size: 19px; }
+body.font-lg .fh-hdate { font-size: 18px; }
+body.font-lg .fh-hhosp { font-size: 16px; }
+body.font-lg .fh-val { font-size: 17px; }
+body.font-lg .period-lbl { font-size: 18px; }
+body.font-lg .dc-btn, body.font-lg .appt-btn, body.font-lg .fh-edit-btn, body.font-lg .fh-del-btn { font-size: 16px; }
+body.font-lg .legend-item { font-size: 15px; }
+body.font-lg .empty-text { font-size: 18px; }
 </style>
 </head>
 <body>
@@ -268,6 +299,7 @@ const S = {
   drugs: [], ins: {}, fups: [], appts: [],
   calYM: new Date().toISOString().slice(0, 7),
   eDrug: null, eFup: null, eAppt: null,
+  fontLg: false,
 
   load() {
     try {
@@ -280,6 +312,8 @@ const S = {
       }
       if (!this.drugs.length && !this.fups.length && !this.appts.length) this.seed();
     } catch { this.seed(); }
+    this.fontLg = localStorage.getItem('medApp_fontLg') === '1';
+    if (this.fontLg) document.body.classList.add('font-lg');
   },
 
   save() {
@@ -316,10 +350,11 @@ const S = {
 
 /* ── 常量 ── */
 const PERIODS = [
-  { id:'morning', label:'早晨', icon:'🌅', time:'08:00' },
-  { id:'noon',    label:'中午', icon:'☀️',  time:'12:00' },
-  { id:'evening', label:'晚上', icon:'🌆', time:'18:00' },
-  { id:'bedtime', label:'睡前', icon:'🌙', time:'21:00' },
+  { id:'morning',  label:'早晨',  icon:'🌅', time:'08:00' },
+  { id:'noon',     label:'中午',  icon:'☀️',  time:'12:00' },
+  { id:'evening',  label:'晚上',  icon:'🌆', time:'18:00' },
+  { id:'bedtime',  label:'睡前',  icon:'🌙', time:'21:00' },
+  { id:'interval', label:'按间隔', icon:'⏱️', time:''     },
 ];
 const MEAL = { before:'饭前', after:'饭后', with:'随餐' };
 
@@ -356,7 +391,10 @@ const A = {
           <div class="hdr-label">${date}</div>
           <div class="hdr-title">${titles[S.tab]}</div>
         </div>
-        ${S.tab==='today' ? `<button class="hdr-btn" onclick="A.notifToggle()">🔔</button>` : ''}
+        <div style="display:flex;gap:8px;align-items:center">
+          ${S.tab==='today' ? `<button class="hdr-btn" onclick="A.notifToggle()">🔔</button>` : ''}
+          <button class="hdr-btn" onclick="A.toggleFont()" title="${S.fontLg?'恢复默认字号':'开启大字体'}" style="${S.fontLg?'border-color:var(--accent);color:var(--accent)':''}"><span style="font-size:13px;font-weight:800">${S.fontLg?'小字':'大字'}</span></button>
+        </div>
       </div>`;
   },
 
@@ -403,12 +441,12 @@ const A = {
     return topBar + PERIODS.filter(p => byP[p.id]).map(p =>
       `<div class="period-section">
         <div class="period-header"><span>${p.icon}</span><span>${p.label}</span><span style="margin-left:auto;font-size:12px">${p.time}</span></div>
-        ${byP[p.id].list.map(({drug, dose}) => {
+        ${byP[p.id].list.map(({drug, dose, hours}) => {
           const key = `${drug.id}:${p.id}`, isDone = !!ci[key];
           return `<div class="med-row ${isDone?'done-row':''}">
             <div class="med-row-info">
               <div class="med-row-name">${drug.name}</div>
-              <div class="med-row-sub">${dose}片 · ${MEAL[drug.meal]||''}</div>
+              <div class="med-row-sub">${dose}片${p.id==='interval'?' · 每'+(hours||8)+'小时一次':''} · ${MEAL[drug.meal]||''}</div>
             </div>
             <button class="tick-btn ${isDone?'done':''}" onclick="A.tick('${drug.id}','${p.id}')">${isDone?'✓':''}</button>
           </div>`;
@@ -421,7 +459,7 @@ const A = {
     const out = [];
     S.drugs.forEach(drug => drug.times.forEach(t => {
       const p = PERIODS.find(pp => pp.id===t.p);
-      if (p) out.push({ drug, p, dose:t.d });
+      if (p) out.push({ drug, p, dose:t.d, hours:t.h });
     }));
     out.sort((a,b) => PERIODS.indexOf(a.p)-PERIODS.indexOf(b.p));
     return out;
@@ -443,6 +481,13 @@ const A = {
     Notification.requestPermission().then(p => alert(p==='granted' ? '通知已开启！' : '请在浏览器设置中允许通知权限。'));
   },
 
+  toggleFont() {
+    S.fontLg = !S.fontLg;
+    localStorage.setItem('medApp_fontLg', S.fontLg ? '1' : '0');
+    document.body.classList.toggle('font-lg', S.fontLg);
+    this.renderHdr();
+  },
+
   /* ══ 我的药箱 ══════════════════════════════════════ */
   vDrugs() {
     if (!S.drugs.length) return `<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">药箱还是空的<br>点击右下角 + 添加第一个药品</div></div>`;
@@ -450,7 +495,7 @@ const A = {
       const daily = drug.times.reduce((s,t)=>s+t.d, 0);
       const dLeft = daily>0 ? Math.floor(drug.inv/daily) : 999;
       const pct   = Math.min(100, Math.round(drug.inv/(daily*30)*100));
-      const sched = drug.times.map(t=>{ const p=PERIODS.find(pp=>pp.id===t.p); return `${p?p.label:t.p} ${t.d}片`; }).join('，');
+      const sched = drug.times.map(t=>{ if(t.p==='interval') return `按间隔 ${t.d}片(每${t.h||8}h)`; const p=PERIODS.find(pp=>pp.id===t.p); return `${p?p.label:t.p} ${t.d}片`; }).join('，');
       let bc, bt, fc;
       if (dLeft<=3)      { bc='badge-red';  bt=`仅剩${dLeft}天`; fc='var(--red)'; }
       else if (dLeft<=7) { bc='badge-warn'; bt=`剩余${dLeft}天`; fc='var(--warn)'; }
@@ -625,8 +670,8 @@ const A = {
     const r30 = this.adherence(30);
     return `
       <div class="stat-grid">
-        <div class="stat-card"><div class="stat-val">${r7}%</div><div class="stat-lbl">近7天依从率</div></div>
-        <div class="stat-card"><div class="stat-val">${r30}%</div><div class="stat-lbl">近30天依从率</div></div>
+        <div class="stat-card"><div class="stat-val">${r7}%</div><div class="stat-lbl">近7天按时服药率</div></div>
+        <div class="stat-card"><div class="stat-val">${r30}%</div><div class="stat-lbl">近30天按时服药率</div></div>
       </div>
       ${this.renderCal()}
       <div class="legend">
@@ -792,19 +837,23 @@ const A = {
     document.getElementById('sheetTitle').textContent = drug ? '编辑药品' : '添加药品';
     const pHTML = PERIODS.map(p => {
       const ex = drug && drug.times.find(t=>t.p===p.id);
+      const isInt = p.id==='interval';
+      const exH = isInt && ex ? (ex.h||8) : 8;
+      const hSel = isInt ? `<select class="period-dose" id="pd-interval-h">${[4,6,8,12].map(h=>`<option value="${h}"${exH===h?' selected':''}>${h}小时一次</option>`).join('')}</select>` : '';
       return `<div class="period-item ${ex?'on':''}" id="pi-${p.id}">
         <div class="period-row">
           <input type="checkbox" class="period-cb" id="pc-${p.id}" ${ex?'checked':''} onchange="A.pcChange('${p.id}')">
           <label class="period-lbl" for="pc-${p.id}">${p.icon} ${p.label}</label>
         </div>
         <input type="number" class="period-dose" id="pd-${p.id}" value="${ex?ex.d:1}" min="0.5" step="0.5" placeholder="片数">
+        ${hSel}
       </div>`;
     }).join('');
     document.getElementById('sheetBody').innerHTML = `
       <div class="fg"><label class="fl">药品名称</label><input class="fi" id="dn" placeholder="如：阿司匹林肠溶片" value="${drug?drug.name:''}"></div>
       <div class="fg"><label class="fl">规格</label><input class="fi" id="ds" placeholder="如：100mg/片" value="${drug?drug.spec||'':''}"></div>
       <div class="fg"><label class="fl">服药时间（可多选）</label><div class="period-grid">${pHTML}</div></div>
-      <div class="fg"><label class="fl">用餐时间</label>
+      <div class="fg"><label class="fl">用药时机</label>
         <select class="fs" id="dm">
           <option value="before" ${drug&&drug.meal==='before'?'selected':''}>饭前</option>
           <option value="after"  ${!drug||drug.meal==='after'?'selected':''}>饭后</option>
@@ -827,7 +876,11 @@ const A = {
     const times = [];
     PERIODS.forEach(p => {
       const cb = document.getElementById(`pc-${p.id}`);
-      if (cb&&cb.checked) times.push({ p:p.id, d:parseFloat(document.getElementById(`pd-${p.id}`).value)||1 });
+      if (cb&&cb.checked) {
+        const t = { p:p.id, d:parseFloat(document.getElementById(`pd-${p.id}`).value)||1 };
+        if (p.id==='interval') { const hs=document.getElementById('pd-interval-h'); if(hs) t.h=parseInt(hs.value)||8; }
+        times.push(t);
+      }
     });
     if (!times.length) return alert('请至少勾选一个服药时间。');
     const drug = {
