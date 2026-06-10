@@ -301,6 +301,11 @@ body.font-lg .btn-p, body.font-lg .btn-s { font-size: 19px; }
 </div>
 
 <script>
+// RAG backend URL — change to your deployed server address when hosting online
+// Local dev:   http://localhost:8000/api/chat
+// Render/etc:  https://your-medbuddy-api.onrender.com/api/chat
+const CHAT_API = 'http://localhost:8000/api/chat';
+
 const today  = () => new Date().toISOString().slice(0,10);
 const uid    = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const fmt    = d  => { const x=new Date(d+'T00:00:00'); return `${x.getMonth()+1}月${x.getDate()}日`; };
@@ -516,28 +521,23 @@ const A={
     msgs.appendChild(typingEl);
     msgs.scrollTop=msgs.scrollHeight;
 
-    const drugCtx=S.drugs.length
-      ?`患者当前用药：${S.drugs.map(d=>`${d.name}${d.spec?'（'+d.spec+'）':''}，${d.times.map(t=>{const p=PERIODS.find(pp=>pp.id===t.p);return `${p?p.label:t.p}${t.d}片`;}).join('+')}，${MEAL[d.meal]}`).join('；')}`
-      :'患者暂无用药记录';
-
-    const systemPrompt=`你是一位专业的慢性病用药管理AI助手，温和专业，善于用简洁的中文解答患者用药问题。${drugCtx}。回答时条理清晰，重要建议分行展示，结尾提醒用户如有疑虑请咨询主治医生。`;
-
     try {
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
+      const res=await fetch(CHAT_API,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:1000,
-          system:systemPrompt,
-          messages:chatHistory.filter(m=>m.role!=='system').slice(-10)
+          question: text,
+          drug_names: S.drugs.map(d=>d.name),
+          history: chatHistory.slice(0,-1).filter(m=>m.role!=='system').slice(-8),
+          top_k: 5
         })
       });
+      if(!res.ok) throw new Error(`Server error ${res.status}`);
       const data=await res.json();
-      const reply=data.content?.[0]?.text||'抱歉，暂时无法回答，请稍后重试。';
+      const reply=data.answer||'抱歉，暂时无法回答，请稍后重试。';
       chatHistory.push({role:'assistant',content:reply});
     } catch(e){
-      chatHistory.push({role:'assistant',content:'网络连接失败，请检查网络后重试。'});
+      chatHistory.push({role:'assistant',content:`连接服务器失败，请确认后端已启动（${CHAT_API}）。\n错误：${e.message}`});
     }
 
     const t=document.getElementById('typing');
