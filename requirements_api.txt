@@ -1,0 +1,6 @@
+fastapi>=0.111
+uvicorn[standard]>=0.29
+anthropic>=0.28
+sentence-transformers>=3.0
+faiss-cpu>=1.8
+numpy>=1.26
