@@ -216,6 +216,13 @@ def translate_to_english(question: str) -> str:
     """Keep English queries unchanged; translate non-ASCII queries for BGE retrieval."""
     if question.isascii():
         return question
+    try:
+        return call_llm(
+            [{"role": "user", "content": f"Translate to English, output only the translation:\n{question}"}],
+            system="You are a translator.", max_tokens=200,
+        ).strip()
+    except Exception:
+        return question
 
 
 def has_llm_provider() -> bool:
@@ -251,13 +258,6 @@ def build_retrieval_fallback(chunks: list[dict]) -> str:
         + "\n\nBefore changing how you take any medication, talk with your "
           "prescriber or a licensed pharmacist."
     )
-    try:
-        return call_llm(
-            [{"role": "user", "content": f"Translate to English, output only the translation:\n{question}"}],
-            system="You are a translator.", max_tokens=200,
-        ).strip()
-    except Exception:
-        return question
 
 
 @app.post("/api/chat", response_model=ChatResponse)
