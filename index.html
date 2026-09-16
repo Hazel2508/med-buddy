@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="description" content="慢病用药小管家：用药提醒、库存追踪、复诊计划，帮助慢病患者建立连贯的用药管理闭环">
+<meta name="description" content="MedBuddy helps people manage daily medications, track refills, and stay prepared for follow-up care.">
 <meta name="theme-color" content="#5c3d2e">
-<title>慢病用药小管家</title>
+<title>MedBuddy | Medication Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink:       #2c1f14;
@@ -31,8 +31,8 @@
   --ai-lt:     #f4effa;
   --r:         18px;
   --r-sm:      12px;
-  --serif:     'Noto Serif SC', serif;
-  --sans:      'Zen Kaku Gothic New', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --serif:     'Source Serif 4', Georgia, serif;
+  --sans:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: var(--sans); background: var(--bg); color: var(--ink); min-height: 100dvh; font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
@@ -197,7 +197,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); min-h
 .appt-btn-edit:hover { border-color: var(--accent); color: var(--accent); }
 .appt-btn-done { background: var(--accent); border: 1.5px solid var(--accent); color: white; }
 
-/* 就诊历史 */
+/* Visit history */
 .fh-list { display: flex; flex-direction: column; gap: 9px; }
 .fh-item { background: var(--surface); border: 1.5px solid var(--border-2); border-radius: var(--r); overflow: hidden; }
 .fh-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; cursor: pointer; gap: 12px; user-select: none; transition: background .18s; }
@@ -245,7 +245,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); min-h
 .empty-icon { font-size: 50px; margin-bottom: 14px; line-height: 1; }
 .empty-text { font-size: 15.5px; line-height: 1.8; }
 
-/* 大字体 */
+/* Large text */
 body.font-lg { font-size: 19px; }
 body.font-lg .hdr-title { font-size: 32px; }
 body.font-lg .med-row-name, body.font-lg .dc-name, body.font-lg .appt-hosp { font-size: 22px; }
@@ -263,7 +263,7 @@ body.font-lg .btn-p, body.font-lg .btn-s { font-size: 19px; }
   <button class="fab" id="fab" onclick="A.openAdd()">+</button>
   <div class="overlay" id="overlay" onclick="A.closeSheet()"></div>
 
-  <!-- 通用 Sheet -->
+  <!-- Shared sheet -->
   <div class="sheet" id="sheet">
     <div class="sheet-drag"></div>
     <div class="sheet-hdr">
@@ -273,42 +273,43 @@ body.font-lg .btn-p, body.font-lg .btn-s { font-size: 19px; }
     <div class="sheet-body" id="sheetBody"></div>
   </div>
 
-  <!-- AI 问诊 Sheet -->
+  <!-- AI assistant sheet -->
   <div class="sheet ai-sheet" id="aiSheet">
     <div class="ai-header-strip">
       <div class="sheet-drag" style="margin:0 auto 14px;background:rgba(255,255,255,.35)"></div>
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div style="font-size:10.5px;letter-spacing:.12em;color:rgba(255,255,255,.72);margin-bottom:3px;font-family:var(--sans)">AI 问诊助手</div>
-          <div class="sheet-title" style="color:white">慢病用药咨询</div>
+          <div style="font-size:10.5px;letter-spacing:.12em;color:rgba(255,255,255,.72);margin-bottom:3px;font-family:var(--sans)">MEDBUDDY AI ASSISTANT</div>
+          <div class="sheet-title" style="color:white">Medication Questions</div>
         </div>
         <button class="sheet-x" style="background:rgba(255,255,255,.22);color:white" onclick="A.closeAI()">✕</button>
       </div>
     </div>
     <div class="chat-msgs" id="chatMsgs"></div>
     <div class="chat-quick" id="chatQuick">
-      <button class="quick-chip" onclick="A.quickAsk('我的药物有哪些需要注意的饮食禁忌？')">饮食禁忌</button>
-      <button class="quick-chip" onclick="A.quickAsk('漏服了一次药怎么办？')">漏服怎么办</button>
-      <button class="quick-chip" onclick="A.quickAsk('我现在的药物之间有没有相互作用？')">药物相互作用</button>
-      <button class="quick-chip" onclick="A.quickAsk('复诊前需要准备什么？')">复诊准备</button>
+      <button class="quick-chip" onclick="A.quickAsk('Are there foods I should avoid with my medications?')">Food precautions</button>
+      <button class="quick-chip" onclick="A.quickAsk('What should I do if I miss a dose?')">Missed dose</button>
+      <button class="quick-chip" onclick="A.quickAsk('Do any of my current medications interact with each other?')">Drug interactions</button>
+      <button class="quick-chip" onclick="A.quickAsk('How should I prepare for my follow-up visit?')">Visit preparation</button>
     </div>
     <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" placeholder="问问AI关于用药的问题…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();A.sendChat();}">
-      <button class="chat-send" id="chatSend" onclick="A.sendChat()">↑</button>
+      <input class="chat-input" id="chatInput" aria-label="Ask a medication question" placeholder="Ask about your medications..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();A.sendChat();}">
+      <button class="chat-send" id="chatSend" aria-label="Send question" onclick="A.sendChat()">↑</button>
     </div>
-    <div class="ai-disclaimer">AI建议仅供参考，不能替代医生诊断。如有疑问请咨询您的主治医生。</div>
+    <div class="ai-disclaimer">AI guidance is informational and does not replace medical advice. Contact your clinician or pharmacist with questions.</div>
   </div>
 </div>
 
 <script>
 // RAG backend URL — change to your deployed server address when hosting online
 // Local dev:   http://localhost:8000/api/chat
-// Render/etc:  https://your-medbuddy-api.onrender.com/api/chat
-const CHAT_API = 'http://localhost:8000/api/chat';
+// Public production API. Override with window.MEDBUDDY_API_URL for local development.
+const CHAT_API = window.MEDBUDDY_API_URL || 'https://medbuddy-api-hazel2508.onrender.com/api/chat';
 
-const today  = () => new Date().toISOString().slice(0,10);
+const today  = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
 const uid    = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const fmt    = d  => { const x=new Date(d+'T00:00:00'); return `${x.getMonth()+1}月${x.getDate()}日`; };
+const fmt    = d  => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}).format(new Date(d+'T00:00:00'));
+const fmtTime = t => { if(!t) return ''; const [h,m]=t.split(':').map(Number); return new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit'}).format(new Date(2000,0,1,h,m)); };
 const daysTo = (a,b) => Math.round((new Date(b)-new Date(a))/86400000);
 const openFups = new Set();
 
@@ -319,7 +320,7 @@ const S = {
 
   load() {
     try {
-      const r=JSON.parse(localStorage.getItem('medApp_v4')||'null');
+      const r=JSON.parse(localStorage.getItem('medApp_v5_us')||'null');
       if(r){ this.drugs=r.drugs||[]; this.ins=r.ins||{}; this.fups=r.fups||[]; this.appts=r.appts||[]; }
       if(!this.drugs.length&&!this.fups.length&&!this.appts.length) this.seed();
     } catch { this.seed(); }
@@ -327,33 +328,33 @@ const S = {
     if(this.fontLg) document.body.classList.add('font-lg');
   },
   save() {
-    localStorage.setItem('medApp_v4',JSON.stringify({drugs:S.drugs,ins:S.ins,fups:S.fups,appts:S.appts}));
+    localStorage.setItem('medApp_v5_us',JSON.stringify({drugs:S.drugs,ins:S.ins,fups:S.fups,appts:S.appts}));
   },
   seed() {
     this.drugs=[
-      {id:uid(),name:'苯磺酸氨氯地平片',spec:'5mg/片',  times:[{p:'evening',d:1}],                   meal:'after',inv:24,notes:'降压，睡前效果更佳'},
-      {id:uid(),name:'二甲双胍缓释片',   spec:'500mg/片',times:[{p:'morning',d:1},{p:'evening',d:1}],  meal:'after',inv:42,notes:'餐后服，减少胃肠不适'},
-      {id:uid(),name:'阿托伐他汀钙片',   spec:'20mg/片', times:[{p:'bedtime',d:1}],                   meal:'with', inv:5, notes:'调脂药，睡前服用'},
+      {id:uid(),name:'Amlodipine besylate',spec:'5 mg tablet',times:[{p:'evening',d:1}],meal:'after',inv:24,notes:'For blood pressure. Take at the same time each day.'},
+      {id:uid(),name:'Metformin ER',spec:'500 mg tablet',times:[{p:'morning',d:1},{p:'evening',d:1}],meal:'after',inv:42,notes:'Take with meals to reduce stomach upset.'},
+      {id:uid(),name:'Atorvastatin calcium',spec:'20 mg tablet',times:[{p:'bedtime',d:1}],meal:'with',inv:5,notes:'Take once daily as directed.'},
     ];
     this.appts=[
-      {id:uid(),hospital:'北京协和医院',dept:'内分泌科',doctor:'李主任',condition:'糖尿病复查',lastVisitDate:'2026-03-28',prescDays:28,nextVisitDate:'2026-06-20',notes:''},
-      {id:uid(),hospital:'北京人民医院',dept:'心内科',  doctor:'王医生',condition:'高血压随访', lastVisitDate:'2026-04-01',prescDays:30,nextVisitDate:'2026-07-05',notes:''},
+      {id:uid(),hospital:'NewYork-Presbyterian Hospital',dept:'Endocrinology',doctor:'Dr. Emily Chen',condition:'Diabetes follow-up',lastVisitDate:'2026-08-28',prescDays:30,nextVisitDate:'2026-10-02',notes:'Bring glucose readings and an updated medication list.'},
+      {id:uid(),hospital:'NewYork-Presbyterian Hospital',dept:'Cardiology',doctor:'Dr. Michael Roberts',condition:'Hypertension follow-up',lastVisitDate:'2026-09-01',prescDays:30,nextVisitDate:'2026-10-20',notes:'Bring your home blood pressure log.'},
     ];
     this.fups=[
-      {id:uid(),date:'2026-03-28',hospital:'北京协和医院',dept:'内分泌科',doctor:'李主任',days:28,advice:'控制饮食，减少碳水摄入；每日步行30分钟以上。',medChange:'二甲双胍缓释片增至1000mg/次（早晚各一）。',notes:'血糖控制良好'},
+      {id:uid(),date:'2026-08-28',hospital:'NewYork-Presbyterian Hospital',dept:'Endocrinology',doctor:'Dr. Emily Chen',days:30,advice:'Continue balanced meals and walk for at least 30 minutes most days.',medChange:'Continue metformin ER 500 mg with breakfast and dinner.',notes:'Glucose readings are improving.'},
     ];
     this.save();
   }
 };
 
 const PERIODS=[
-  {id:'morning', label:'早晨', icon:'🌅',time:'08:00'},
-  {id:'noon',    label:'中午', icon:'☀️', time:'12:00'},
-  {id:'evening', label:'晚上', icon:'🌆',time:'18:00'},
-  {id:'bedtime', label:'睡前', icon:'🌙',time:'21:00'},
-  {id:'interval',label:'按间隔',icon:'⏱️',time:''},
+  {id:'morning', label:'Morning', icon:'🌅',time:'08:00'},
+  {id:'noon',    label:'Noon', icon:'☀️', time:'12:00'},
+  {id:'evening', label:'Evening', icon:'🌆',time:'18:00'},
+  {id:'bedtime', label:'Bedtime', icon:'🌙',time:'21:00'},
+  {id:'interval',label:'By interval',icon:'⏱️',time:''},
 ];
-const MEAL={before:'饭前',after:'饭后',with:'随餐'};
+const MEAL={before:'Before meals',after:'After meals',with:'With food'};
 
 let chatHistory=[];
 
@@ -362,10 +363,10 @@ const A={
 
   renderTabbar(){
     const tabs=[
-      {id:'today',   label:'今日', svg:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'},
-      {id:'drugs',   label:'药箱', svg:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v5M15 4v5"/>'},
-      {id:'followup',label:'复诊', svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>'},
-      {id:'records', label:'记录', svg:'<path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-8"/>'},
+      {id:'today',   label:'Today', svg:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'},
+      {id:'drugs',   label:'Medications', svg:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v5M15 4v5"/>'},
+      {id:'followup',label:'Visits', svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>'},
+      {id:'records', label:'History', svg:'<path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-8"/>'},
     ];
     document.getElementById('tabbar').innerHTML=tabs.map(t=>
       `<button class="tab ${S.tab===t.id?'on':''}" onclick="A.go('${t.id}')">
@@ -377,9 +378,9 @@ const A={
   go(tab){ S.tab=tab; this.renderTabbar(); this.render(); },
 
   renderHdr(){
-    const now=new Date(), wdays=['日','一','二','三','四','五','六'];
-    const date=`${now.getMonth()+1}月${now.getDate()}日 周${wdays[now.getDay()]}`;
-    const titles={today:'今日用药',drugs:'我的药箱',followup:'复诊计划',records:'用药记录'};
+    const now=new Date();
+    const date=new Intl.DateTimeFormat('en-US',{weekday:'short',month:'long',day:'numeric'}).format(now);
+    const titles={today:"Today's Medications",drugs:'My Medications',followup:'Follow-up Visits',records:'Medication History'};
     document.getElementById('hdr').innerHTML=`
       <div class="hdr-inner">
         <div>
@@ -387,9 +388,9 @@ const A={
           <div class="hdr-title">${titles[S.tab]}</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
-          ${S.tab==='today'?`<button class="hdr-btn ai-btn" onclick="A.openAI()" title="AI问诊">AI</button>`:''}
-          ${S.tab==='today'?`<button class="hdr-btn" onclick="A.notifToggle()">🔔</button>`:''}
-          <button class="hdr-btn" onclick="A.toggleFont()" style="${S.fontLg?'border-color:var(--accent);color:var(--accent)':''}"><span style="font-size:12px;font-weight:700">${S.fontLg?'小字':'大字'}</span></button>
+          ${S.tab==='today'?`<button class="hdr-btn ai-btn" onclick="A.openAI()" title="Ask the AI medication assistant">AI</button>`:''}
+          ${S.tab==='today'?`<button class="hdr-btn" aria-label="Medication reminder notifications" onclick="A.notifToggle()">🔔</button>`:''}
+          <button class="hdr-btn" aria-label="Toggle text size" onclick="A.toggleFont()" style="${S.fontLg?'border-color:var(--accent);color:var(--accent)':''}"><span style="font-size:12px;font-weight:700">${S.fontLg?'Aa':'A+'}</span></button>
         </div>
       </div>`;
   },
@@ -404,7 +405,7 @@ const A={
     if(S.tab==='records')  c.innerHTML=this.vRecords();
   },
 
-  /* ══ 今日 ══ */
+  /* ══ Today ══ */
   vToday(){
     const t=today(),ci=S.ins[t]||{},items=this.todayItems();
     let total=items.length,done=0;
@@ -412,7 +413,7 @@ const A={
     const pct=total?Math.round(done/total*100):100;
     const R=26,C=2*Math.PI*R;
     const h=new Date().getHours();
-    const greet=h<6?'夜深了':h<11?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
+    const greet=h<6?'Rest well':h<11?'Good morning':h<14?'Good afternoon':h<18?'Good afternoon':'Good evening';
     const topBar=`
       <div class="progress-bar-wrap">
         <svg class="ring-svg" viewBox="0 0 64 64">
@@ -420,22 +421,22 @@ const A={
           <circle class="ring-fg" cx="32" cy="32" r="${R}" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C*(1-pct/100)).toFixed(1)}"/>
         </svg>
         <div class="progress-info">
-          <h2>${pct}% 已完成</h2>
-          <p>${greet}，已服 ${done} / ${total} 次</p>
+          <h2>${pct}% complete</h2>
+          <p>${greet}. ${done} of ${total} doses taken.</p>
         </div>
       </div>`;
-    if(!items.length) return topBar+`<div class="empty"><div class="empty-icon">💊</div><div class="empty-text">药箱还是空的<br>前往「药箱」标签添加药品</div></div>`;
+    if(!items.length) return topBar+`<div class="empty"><div class="empty-icon">💊</div><div class="empty-text">No medications yet.<br>Add your first medication in the Medications tab.</div></div>`;
     const byP={};
     items.forEach(it=>{ (byP[it.p.id]=byP[it.p.id]||{p:it.p,list:[]}).list.push(it); });
     return topBar+PERIODS.filter(p=>byP[p.id]).map(p=>
       `<div class="period-section">
-        <div class="period-header"><span>${p.icon}</span><span>${p.label}</span><span style="margin-left:auto;font-size:12px">${p.time}</span></div>
+        <div class="period-header"><span>${p.icon}</span><span>${p.label}</span><span style="margin-left:auto;font-size:12px">${fmtTime(p.time)}</span></div>
         ${byP[p.id].list.map(({drug,dose,hours})=>{
           const key=`${drug.id}:${p.id}`,isDone=!!ci[key];
           return `<div class="med-row ${isDone?'done-row':''}">
             <div class="med-row-info">
               <div class="med-row-name">${drug.name}</div>
-              <div class="med-row-sub">${dose}片${p.id==='interval'?' · 每'+(hours||8)+'小时一次':''} · ${MEAL[drug.meal]||''}</div>
+              <div class="med-row-sub">${dose} ${dose===1?'tablet':'tablets'}${p.id==='interval'?' · Every '+(hours||8)+' hours':''} · ${MEAL[drug.meal]||''}</div>
             </div>
             <button class="tick-btn ${isDone?'done':''}" onclick="A.tick('${drug.id}','${p.id}')">${isDone?'✓':''}</button>
           </div>`;
@@ -464,7 +465,7 @@ const A={
     S.save(); this.render();
   },
 
-  /* ══ AI 问诊 ══ */
+  /* ══ AI assistant ══ */
   openAI(){
     const sheet=document.getElementById('aiSheet');
     const overlay=document.getElementById('overlay');
@@ -474,9 +475,9 @@ const A={
     document.body.style.overflow='hidden';
     if(!chatHistory.length){
       const drugList=S.drugs.length
-        ?S.drugs.map(d=>`${d.name}（${d.spec||''}，${d.times.map(t=>PERIODS.find(p=>p.id===t.p)?.label).join('/')}，${MEAL[d.meal]}）`).join('；')
-        :'暂无药品记录';
-      chatHistory.push({role:'assistant',content:`您好！我是您的用药AI助手。\n\n我已了解您当前的用药情况：${drugList}。\n\n您有什么用药问题想咨询？`});
+        ?S.drugs.map(d=>`${d.name} (${d.spec||'dose not entered'}, ${d.times.map(t=>PERIODS.find(p=>p.id===t.p)?.label).join('/')}, ${MEAL[d.meal]})`).join('; ')
+        :'No medications have been added yet';
+      chatHistory.push({role:'assistant',content:`Hi, I’m your MedBuddy AI assistant.\n\nHere is the medication information currently saved in MedBuddy: ${drugList}.\n\nWhat would you like to know about your medications?`});
       this.renderChat();
     }
   },
@@ -492,7 +493,7 @@ const A={
     const msgs=document.getElementById('chatMsgs');
     msgs.innerHTML=chatHistory.map(m=>`
       <div class="msg ${m.role}">
-        <div class="msg-avatar ${m.role}">${m.role==='assistant'?'AI':'我'}</div>
+        <div class="msg-avatar ${m.role}">${m.role==='assistant'?'AI':'You'}</div>
         <div class="msg-bubble">${m.content.replace(/\n/g,'<br>')}</div>
       </div>`).join('');
     msgs.scrollTop=msgs.scrollHeight;
@@ -534,10 +535,10 @@ const A={
       });
       if(!res.ok) throw new Error(`Server error ${res.status}`);
       const data=await res.json();
-      const reply=data.answer||'抱歉，暂时无法回答，请稍后重试。';
+      const reply=data.answer||'I’m sorry, I can’t answer that right now. Please try again shortly.';
       chatHistory.push({role:'assistant',content:reply});
     } catch(e){
-      chatHistory.push({role:'assistant',content:`连接服务器失败，请确认后端已启动（${CHAT_API}）。\n错误：${e.message}`});
+      chatHistory.push({role:'assistant',content:`I couldn’t connect to the MedBuddy service. Please confirm that the backend is running at ${CHAT_API}.\nError: ${e.message}`});
     }
 
     const t=document.getElementById('typing');
@@ -546,18 +547,18 @@ const A={
     sendBtn.disabled=false;
   },
 
-  /* ══ 药箱 ══ */
+  /* ══ Medications ══ */
   vDrugs(){
-    if(!S.drugs.length) return `<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">药箱还是空的<br>点击右下角 + 添加第一个药品</div></div>`;
+    if(!S.drugs.length) return `<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">No medications yet.<br>Tap + to add your first medication.</div></div>`;
     return S.drugs.map(drug=>{
       const daily=drug.times.reduce((s,t)=>s+t.d,0);
       const dLeft=daily>0?Math.floor(drug.inv/daily):999;
       const pct=Math.min(100,Math.round(drug.inv/(daily*30)*100));
-      const sched=drug.times.map(t=>{ if(t.p==='interval') return `按间隔 ${t.d}片(每${t.h||8}h)`; const p=PERIODS.find(pp=>pp.id===t.p); return `${p?p.label:t.p} ${t.d}片`; }).join('，');
+      const sched=drug.times.map(t=>{ if(t.p==='interval') return `${t.d} ${t.d===1?'tablet':'tablets'} every ${t.h||8} hours`; const p=PERIODS.find(pp=>pp.id===t.p); return `${p?p.label:t.p}: ${t.d} ${t.d===1?'tablet':'tablets'}`; }).join(', ');
       let bc,bt,fc;
-      if(dLeft<=3)      {bc='badge-red'; bt=`仅剩${dLeft}天`; fc='var(--red)';}
-      else if(dLeft<=7) {bc='badge-warn';bt=`剩余${dLeft}天`; fc='var(--warn)';}
-      else              {bc='badge-ok';  bt=`剩余${dLeft}天`; fc='var(--ok)';}
+      if(dLeft<=3)      {bc='badge-red'; bt=`${dLeft} ${dLeft===1?'day':'days'} left`; fc='var(--red)';}
+      else if(dLeft<=7) {bc='badge-warn';bt=`${dLeft} days left`; fc='var(--warn)';}
+      else              {bc='badge-ok';  bt=`${dLeft} days left`; fc='var(--ok)';}
       return `<div class="drug-card">
         <div class="drug-card-top">
           <div class="dc-left">
@@ -566,16 +567,16 @@ const A={
           </div>
           <span class="badge ${bc}">${bt}</span>
         </div>
-        <div class="dc-sched">每日：${sched} · ${MEAL[drug.meal]||''}</div>
+        <div class="dc-sched">Daily: ${sched} · ${MEAL[drug.meal]||''}</div>
         ${drug.notes?`<div class="dc-notes">${drug.notes}</div>`:''}
         <div class="inv-wrap">
-          <div class="inv-meta"><span>库存 ${drug.inv} 片</span><span>${dLeft===999?'—':dLeft+' 天'}</span></div>
+          <div class="inv-meta"><span>${drug.inv} tablets on hand</span><span>${dLeft===999?'—':dLeft+' days'}</span></div>
           <div class="inv-track"><div class="inv-fill" style="width:${pct}%;background:${fc}"></div></div>
         </div>
         <div class="dc-actions">
-          <button class="dc-btn" onclick="A.openDrug('${drug.id}')">编辑</button>
-          <button class="dc-btn" onclick="A.restock('${drug.id}')">补库存</button>
-          <button class="dc-btn del" onclick="A.delDrug('${drug.id}')">删除</button>
+          <button class="dc-btn" onclick="A.openDrug('${drug.id}')">Edit</button>
+          <button class="dc-btn" onclick="A.restock('${drug.id}')">Refill</button>
+          <button class="dc-btn del" onclick="A.delDrug('${drug.id}')">Delete</button>
         </div>
       </div>`;
     }).join('');
@@ -583,29 +584,30 @@ const A={
 
   restock(id){
     const drug=S.drugs.find(d=>d.id===id); if(!drug) return;
-    const n=parseInt(prompt(`为「${drug.name}」补充库存（片数）：`));
+    const n=parseInt(prompt(`How many tablets would you like to add for ${drug.name}?`));
     if(isNaN(n)||n<=0) return;
     drug.inv+=n; S.save(); this.render();
   },
   delDrug(id){
-    if(!confirm('确认删除此药品？')) return;
+    if(!confirm('Delete this medication?')) return;
     S.drugs=S.drugs.filter(d=>d.id!==id); S.save(); this.render();
   },
 
-  /* ══ 复诊 ══ */
+  /* ══ Follow-up visits ══ */
   vFollowup(){
     let apptSection='';
     if(!S.appts.length){
-      apptSection=`<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">还没有复诊计划<br>点击右下角 + 添加复诊提醒</div></div>`;
+      apptSection=`<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">No follow-up visits scheduled.<br>Tap + to add a visit reminder.</div></div>`;
     } else {
       const sorted=[...S.appts].sort((a,b)=>a.nextVisitDate.localeCompare(b.nextVisitDate));
       apptSection=sorted.map(a=>{
         const diff=daysTo(today(),a.nextVisitDate);
         let cls,badgeCls,badgeTxt;
-        if(diff<0)       {cls='urg'; badgeCls='urg'; badgeTxt=`已超期 ${Math.abs(diff)} 天`;}
-        else if(diff<=3) {cls='urg'; badgeCls='urg'; badgeTxt=`还有 ${diff} 天`;}
-        else if(diff<=7) {cls='warn';badgeCls='warn';badgeTxt=`还有 ${diff} 天`;}
-        else             {cls='ok';  badgeCls='ok';  badgeTxt=`还有 ${diff} 天`;}
+        if(diff<0)       {cls='urg'; badgeCls='urg'; badgeTxt=`${Math.abs(diff)} ${Math.abs(diff)===1?'day':'days'} overdue`;}
+        else if(diff===0){cls='urg'; badgeCls='urg'; badgeTxt='Today';}
+        else if(diff<=3) {cls='urg'; badgeCls='urg'; badgeTxt=`In ${diff} ${diff===1?'day':'days'}`;}
+        else if(diff<=7) {cls='warn';badgeCls='warn';badgeTxt=`In ${diff} days`;}
+        else             {cls='ok';  badgeCls='ok';  badgeTxt=`In ${diff} days`;}
         const subParts=[a.dept,a.doctor,a.condition].filter(Boolean);
         return `<div class="appt-card ${cls}">
           <div class="appt-top">
@@ -616,20 +618,20 @@ const A={
           <div class="appt-divider"></div>
           <div class="appt-dates">
             <div class="appt-date-item">
-              <div class="appt-date-lbl">上次就诊</div>
+              <div class="appt-date-lbl">Last visit</div>
               <div class="appt-date-val">${a.lastVisitDate?fmt(a.lastVisitDate):'—'}</div>
             </div>
             <div class="appt-arrow">→</div>
             <div class="appt-date-item" style="text-align:right">
-              <div class="appt-date-lbl">复诊时间</div>
+              <div class="appt-date-lbl">Next visit</div>
               <div class="appt-date-val">${fmt(a.nextVisitDate)}</div>
             </div>
           </div>
-          ${a.prescDays?`<div class="appt-presc">处方天数：${a.prescDays} 天</div>`:''}
+          ${a.prescDays?`<div class="appt-presc">Prescription supply: ${a.prescDays} days</div>`:''}
           ${a.notes?`<div class="appt-notes">${a.notes}</div>`:''}
           <div class="appt-actions">
-            <button class="appt-btn appt-btn-edit" onclick="A.openAppt('${a.id}')">编辑</button>
-            <button class="appt-btn appt-btn-done" onclick="A.markDone('${a.id}')">标记已就诊 ✓</button>
+            <button class="appt-btn appt-btn-edit" onclick="A.openAppt('${a.id}')">Edit</button>
+            <button class="appt-btn appt-btn-done" onclick="A.markDone('${a.id}')">Mark as attended ✓</button>
           </div>
         </div>`;
       }).join('');
@@ -639,12 +641,12 @@ const A={
       ?[...S.fups].sort((a,b)=>b.date.localeCompare(a.date)).map(f=>{
           const isOpen=openFups.has(f.id);
           const rows=[
-            f.dept    &&{k:'科室',    v:f.dept},
-            f.doctor  &&{k:'接诊医生',v:f.doctor},
-            {k:'处方天数',v:f.days+'天'},
-            f.advice  &&{k:'医生建议',v:f.advice},
-            f.medChange&&{k:'用药调整',v:f.medChange},
-            f.notes   &&{k:'备注',    v:f.notes},
+            f.dept    &&{k:'Department',v:f.dept},
+            f.doctor  &&{k:'Clinician',v:f.doctor},
+            {k:'Prescription supply',v:f.days+' days'},
+            f.advice  &&{k:'Care instructions',v:f.advice},
+            f.medChange&&{k:'Medication changes',v:f.medChange},
+            f.notes   &&{k:'Notes',v:f.notes},
           ].filter(Boolean);
           return `<div class="fh-item">
             <div class="fh-head" onclick="A.toggleFh('${f.id}')">
@@ -653,7 +655,7 @@ const A={
                 <div class="fh-hhosp">${f.hospital}</div>
               </div>
               <div class="fh-head-right">
-                <span class="fh-tag">${f.days}天</span>
+                <span class="fh-tag">${f.days} days</span>
                 <span class="fh-chevron ${isOpen?'open':''}" id="fhc-${f.id}">›</span>
               </div>
             </div>
@@ -661,20 +663,20 @@ const A={
               <div class="fh-inner">
                 <div class="fh-detail-rows">${rows.map(r=>`<div class="fh-row"><span class="fh-key">${r.k}</span><span class="fh-val">${r.v}</span></div>`).join('')}</div>
                 <div class="fh-actions">
-                  <button class="fh-edit-btn" onclick="A.openFup('${f.id}')">编辑</button>
-                  ${canDelete?`<button class="fh-del-btn" onclick="A.delFup('${f.id}')">删除记录</button>`:''}
+                  <button class="fh-edit-btn" onclick="A.openFup('${f.id}')">Edit</button>
+                  ${canDelete?`<button class="fh-del-btn" onclick="A.delFup('${f.id}')">Delete record</button>`:''}
                 </div>
               </div>
             </div>
           </div>`;
         }).join('')
-      :`<div class="empty" style="padding:28px 0"><div class="empty-text">暂无历史记录</div></div>`;
+      :`<div class="empty" style="padding:28px 0"><div class="empty-text">No visit history yet.</div></div>`;
     return `
-      <div class="slbl" style="margin-top:4px">待复诊</div>
+      <div class="slbl" style="margin-top:4px">UPCOMING VISITS</div>
       ${apptSection}
       <div class="slbl-row">
-        <span class="slbl" style="margin:0">就诊历史</span>
-        <button class="slbl-btn" onclick="A.openFup(null)">+ 记录历史</button>
+        <span class="slbl" style="margin:0">VISIT HISTORY</span>
+        <button class="slbl-btn" onclick="A.openFup(null)">+ Add past visit</button>
       </div>
       <div class="fh-list">${histBody}</div>`;
   },
@@ -686,38 +688,38 @@ const A={
     if(chev) chev.classList.toggle('open',openFups.has(id));
   },
   delFup(id){
-    if(!confirm('确认删除这条就诊记录？')) return;
+    if(!confirm('Delete this visit record?')) return;
     S.fups=S.fups.filter(f=>f.id!==id); openFups.delete(id); S.save(); this.render();
   },
   markDone(id){
-    if(!confirm('确认标记为已就诊？该记录将自动归入就诊历史。')) return;
+    if(!confirm('Mark this visit as attended? It will be moved to Visit History.')) return;
     const a=S.appts.find(ap=>ap.id===id); if(!a) return;
     S.fups.push({id:uid(),date:today(),hospital:a.hospital,dept:a.dept||'',doctor:a.doctor||'',days:a.prescDays||30,advice:'',medChange:'',notes:a.notes||''});
     S.appts=S.appts.filter(ap=>ap.id!==id);
     S.save(); this.render();
   },
 
-  /* ══ 记录 ══ */
+  /* ══ Medication history ══ */
   vRecords(){
     const r7=this.adherence(7),r30=this.adherence(30);
     return `
       <div class="stat-grid">
-        <div class="stat-card"><div class="stat-val">${r7}%</div><div class="stat-lbl">近7天按时服药率</div></div>
-        <div class="stat-card"><div class="stat-val">${r30}%</div><div class="stat-lbl">近30天按时服药率</div></div>
+        <div class="stat-card"><div class="stat-val">${r7}%</div><div class="stat-lbl">7-day adherence</div></div>
+        <div class="stat-card"><div class="stat-val">${r30}%</div><div class="stat-lbl">30-day adherence</div></div>
       </div>
       ${this.renderCal()}
       <div class="legend">
-        <div class="legend-item"><span class="leg-dot" style="background:var(--ok)"></span>全部已服</div>
-        <div class="legend-item"><span class="leg-dot" style="background:var(--warn-lt);border:2px solid var(--warn)"></span>部分已服</div>
-        <div class="legend-item"><span class="leg-dot" style="background:var(--red-lt)"></span>漏服</div>
+        <div class="legend-item"><span class="leg-dot" style="background:var(--ok)"></span>All doses taken</div>
+        <div class="legend-item"><span class="leg-dot" style="background:var(--warn-lt);border:2px solid var(--warn)"></span>Some doses taken</div>
+        <div class="legend-item"><span class="leg-dot" style="background:var(--red-lt)"></span>Missed</div>
       </div>`;
   },
 
   renderCal(){
     const [y,m]=S.calYM.split('-').map(Number);
     const first=new Date(y,m-1,1),last=new Date(y,m,0),todayS=today();
-    const mL=['一','二','三','四','五','六','七','八','九','十','十一','十二'];
-    const dh=['日','一','二','三','四','五','六'].map(d=>`<div class="cal-dh">${d}</div>`).join('');
+    const monthLabel=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(new Date(y,m-1,1));
+    const dh=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="cal-dh">${d}</div>`).join('');
     let days='';
     for(let i=0;i<first.getDay();i++) days+='<div></div>';
     for(let d=1;d<=last.getDate();d++){
@@ -729,10 +731,10 @@ const A={
       days+=`<div class="${cls}">${d}</div>`;
     }
     return `
-      <div class="slbl">打卡日历</div>
+      <div class="slbl">ADHERENCE CALENDAR</div>
       <div class="cal-nav-row">
         <button class="cal-arrow" onclick="A.calPrev()">‹</button>
-        <span class="cal-month-lbl">${y}年${mL[m-1]}月</span>
+        <span class="cal-month-lbl">${monthLabel}</span>
         <button class="cal-arrow" onclick="A.calNext()">›</button>
       </div>
       <div class="cal-grid">${dh}${days}</div>`;
@@ -762,31 +764,31 @@ const A={
     S.calYM=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`; this.render();
   },
 
-  /* ══ 表单 ══ */
+  /* ══ Forms ══ */
   openAdd(){ if(S.tab==='drugs') this.openDrug(null); if(S.tab==='followup') this.openAppt(null); },
 
   openAppt(id){
     const a=id?S.appts.find(ap=>ap.id===id):null;
     S.eAppt=id||null;
-    document.getElementById('sheetTitle').textContent=a?'编辑复诊计划':'添加复诊计划';
+    document.getElementById('sheetTitle').textContent=a?'Edit Follow-up Visit':'Add Follow-up Visit';
     document.getElementById('sheetBody').innerHTML=`
-      <div class="fg"><label class="fl">就诊医院</label><input class="fi" id="ah" placeholder="如：北京协和医院" value="${a?a.hospital:''}"></div>
-      <div class="fg"><label class="fl">科室（可选）</label><input class="fi" id="ade" placeholder="如：内分泌科" value="${a?a.dept||'':''}"></div>
-      <div class="fg"><label class="fl">接诊医生（可选）</label><input class="fi" id="adr" placeholder="如：李主任" value="${a?a.doctor||'':''}"></div>
-      <div class="fg"><label class="fl">就诊原因 / 病种（可选）</label><input class="fi" id="aco" placeholder="如：高血压随访" value="${a?a.condition||'':''}"></div>
-      <div class="fg"><label class="fl">上次就诊日期（可选）</label><input class="fi" type="date" id="alv" value="${a?a.lastVisitDate||'':''}"></div>
-      <div class="fg"><label class="fl">处方天数（可选）</label>
-        <select class="fs" id="apd"><option value="0">不填</option>${[7,14,28,30,60,90].map(n=>`<option value="${n}" ${a&&a.prescDays===n?'selected':''}>${n} 天</option>`).join('')}</select>
+      <div class="fg"><label class="fl">Hospital or clinic</label><input class="fi" id="ah" placeholder="e.g., NewYork-Presbyterian Hospital" value="${a?a.hospital:''}"></div>
+      <div class="fg"><label class="fl">Department (optional)</label><input class="fi" id="ade" placeholder="e.g., Endocrinology" value="${a?a.dept||'':''}"></div>
+      <div class="fg"><label class="fl">Clinician (optional)</label><input class="fi" id="adr" placeholder="e.g., Dr. Emily Chen" value="${a?a.doctor||'':''}"></div>
+      <div class="fg"><label class="fl">Reason for visit (optional)</label><input class="fi" id="aco" placeholder="e.g., Hypertension follow-up" value="${a?a.condition||'':''}"></div>
+      <div class="fg"><label class="fl">Last visit date (optional)</label><input class="fi" type="date" id="alv" value="${a?a.lastVisitDate||'':''}"></div>
+      <div class="fg"><label class="fl">Prescription supply (optional)</label>
+        <select class="fs" id="apd"><option value="0">Not entered</option>${[7,14,28,30,60,90].map(n=>`<option value="${n}" ${a&&a.prescDays===n?'selected':''}>${n} days</option>`).join('')}</select>
       </div>
-      <div class="fg"><label class="fl">复诊时间（必填）</label><input class="fi" type="date" id="anv" value="${a?a.nextVisitDate:today()}" required></div>
-      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="ano" placeholder="其他注意事项" value="${a?a.notes||'':''}"></div>
-      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveAppt()">保存</button></div>`;
+      <div class="fg"><label class="fl">Follow-up date</label><input class="fi" type="date" id="anv" value="${a?a.nextVisitDate:today()}" required></div>
+      <div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="ano" placeholder="Anything to remember for this visit" value="${a?a.notes||'':''}"></div>
+      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">Cancel</button><button class="btn-p" onclick="A.saveAppt()">Save</button></div>`;
     this.showSheet();
   },
   saveAppt(){
     const hosp=document.getElementById('ah').value.trim(),nv=document.getElementById('anv').value;
-    if(!hosp) return alert('请输入就诊医院。');
-    if(!nv)   return alert('请设置复诊时间。');
+    if(!hosp) return alert('Enter a hospital or clinic.');
+    if(!nv)   return alert('Choose a follow-up date.');
     const a={id:S.eAppt||uid(),hospital:hosp,dept:document.getElementById('ade').value.trim(),doctor:document.getElementById('adr').value.trim(),condition:document.getElementById('aco').value.trim(),lastVisitDate:document.getElementById('alv').value,prescDays:parseInt(document.getElementById('apd').value)||0,nextVisitDate:nv,notes:document.getElementById('ano').value.trim()};
     if(S.eAppt){const i=S.appts.findIndex(ap=>ap.id===S.eAppt);if(i>=0)S.appts[i]=a;} else S.appts.push(a);
     S.save(); this.closeSheet(); this.render();
@@ -795,24 +797,24 @@ const A={
   openFup(id){
     const f=id?S.fups.find(ff=>ff.id===id):null;
     S.eFup=id||null;
-    document.getElementById('sheetTitle').textContent=f?'编辑就诊记录':'记录就诊信息';
+    document.getElementById('sheetTitle').textContent=f?'Edit Visit Record':'Add Past Visit';
     document.getElementById('sheetBody').innerHTML=`
-      <div class="fg"><label class="fl">就诊日期</label><input class="fi" type="date" id="fd" value="${f?f.date:today()}"></div>
-      <div class="fg"><label class="fl">就诊医院</label><input class="fi" id="fh" placeholder="如：北京协和医院" value="${f?f.hospital:''}"></div>
-      <div class="fg"><label class="fl">科室（可选）</label><input class="fi" id="fde" placeholder="如：内分泌科" value="${f?f.dept||'':''}"></div>
-      <div class="fg"><label class="fl">接诊医生（可选）</label><input class="fi" id="fdr" placeholder="如：李主任" value="${f?f.doctor||'':''}"></div>
-      <div class="fg"><label class="fl">处方天数</label>
-        <select class="fs" id="fdy">${[7,14,28,30,60,90].map(n=>`<option value="${n}" ${f&&f.days===n?'selected':''}>${n} 天</option>`).join('')}</select>
+      <div class="fg"><label class="fl">Visit date</label><input class="fi" type="date" id="fd" value="${f?f.date:today()}"></div>
+      <div class="fg"><label class="fl">Hospital or clinic</label><input class="fi" id="fh" placeholder="e.g., NewYork-Presbyterian Hospital" value="${f?f.hospital:''}"></div>
+      <div class="fg"><label class="fl">Department (optional)</label><input class="fi" id="fde" placeholder="e.g., Endocrinology" value="${f?f.dept||'':''}"></div>
+      <div class="fg"><label class="fl">Clinician (optional)</label><input class="fi" id="fdr" placeholder="e.g., Dr. Emily Chen" value="${f?f.doctor||'':''}"></div>
+      <div class="fg"><label class="fl">Prescription supply</label>
+        <select class="fs" id="fdy">${[7,14,28,30,60,90].map(n=>`<option value="${n}" ${f&&f.days===n?'selected':''}>${n} days</option>`).join('')}</select>
       </div>
-      <div class="fg"><label class="fl">医生建议 / 医嘱（可选）</label><textarea class="fta" id="fad" rows="3" placeholder="如：低盐饮食，每日监测血压…">${f?f.advice||'':''}</textarea></div>
-      <div class="fg"><label class="fl">用药调整情况（可选）</label><textarea class="fta" id="fmc" rows="2" placeholder="如：苯磺酸氨氯地平从5mg增至10mg…">${f?f.medChange||'':''}</textarea></div>
-      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="fn" placeholder="如：血压控制良好" value="${f?f.notes||'':''}"></div>
-      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveFup()">保存</button></div>`;
+      <div class="fg"><label class="fl">Care instructions (optional)</label><textarea class="fta" id="fad" rows="3" placeholder="e.g., Follow a lower-sodium diet and check blood pressure daily.">${f?f.advice||'':''}</textarea></div>
+      <div class="fg"><label class="fl">Medication changes (optional)</label><textarea class="fta" id="fmc" rows="2" placeholder="e.g., Increase amlodipine from 5 mg to 10 mg daily.">${f?f.medChange||'':''}</textarea></div>
+      <div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="fn" placeholder="e.g., Blood pressure is improving." value="${f?f.notes||'':''}"></div>
+      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">Cancel</button><button class="btn-p" onclick="A.saveFup()">Save</button></div>`;
     this.showSheet();
   },
   saveFup(){
     const hosp=document.getElementById('fh').value.trim();
-    if(!hosp) return alert('请输入就诊医院。');
+    if(!hosp) return alert('Enter a hospital or clinic.');
     const f={id:S.eFup||uid(),date:document.getElementById('fd').value,hospital:hosp,dept:document.getElementById('fde').value.trim(),doctor:document.getElementById('fdr').value.trim(),days:parseInt(document.getElementById('fdy').value),advice:document.getElementById('fad').value.trim(),medChange:document.getElementById('fmc').value.trim(),notes:document.getElementById('fn').value.trim()};
     if(S.eFup){const i=S.fups.findIndex(ff=>ff.id===S.eFup);if(i>=0)S.fups[i]=f;} else S.fups.push(f);
     S.save(); this.closeSheet(); this.render();
@@ -821,35 +823,35 @@ const A={
   openDrug(id){
     const drug=id?S.drugs.find(d=>d.id===id):null;
     S.eDrug=id||null;
-    document.getElementById('sheetTitle').textContent=drug?'编辑药品':'添加药品';
+    document.getElementById('sheetTitle').textContent=drug?'Edit Medication':'Add Medication';
     const pHTML=PERIODS.map(p=>{
       const ex=drug&&drug.times.find(t=>t.p===p.id);
       const isInt=p.id==='interval';
       const exH=isInt&&ex?(ex.h||8):8;
-      const hSel=isInt?`<select class="period-dose" id="pd-interval-h">${[4,6,8,12].map(h=>`<option value="${h}"${exH===h?' selected':''}>${h}小时一次</option>`).join('')}</select>`:'';
+      const hSel=isInt?`<select class="period-dose" id="pd-interval-h">${[4,6,8,12].map(h=>`<option value="${h}"${exH===h?' selected':''}>Every ${h} hours</option>`).join('')}</select>`:'';
       return `<div class="period-item ${ex?'on':''}" id="pi-${p.id}">
         <div class="period-row">
           <input type="checkbox" class="period-cb" id="pc-${p.id}" ${ex?'checked':''} onchange="A.pcChange('${p.id}')">
           <label class="period-lbl" for="pc-${p.id}">${p.icon} ${p.label}</label>
         </div>
-        <input type="number" class="period-dose" id="pd-${p.id}" value="${ex?ex.d:1}" min="0.5" step="0.5" placeholder="片数">
+        <input type="number" class="period-dose" id="pd-${p.id}" value="${ex?ex.d:1}" min="0.5" step="0.5" placeholder="Tablets">
         ${hSel}
       </div>`;
     }).join('');
     document.getElementById('sheetBody').innerHTML=`
-      <div class="fg"><label class="fl">药品名称</label><input class="fi" id="dn" placeholder="如：阿司匹林肠溶片" value="${drug?drug.name:''}"></div>
-      <div class="fg"><label class="fl">规格</label><input class="fi" id="ds" placeholder="如：100mg/片" value="${drug?drug.spec||'':''}"></div>
-      <div class="fg"><label class="fl">服药时间（可多选）</label><div class="period-grid">${pHTML}</div></div>
-      <div class="fg"><label class="fl">用药时机</label>
+      <div class="fg"><label class="fl">Medication name</label><input class="fi" id="dn" placeholder="e.g., Aspirin delayed-release" value="${drug?drug.name:''}"></div>
+      <div class="fg"><label class="fl">Strength and form</label><input class="fi" id="ds" placeholder="e.g., 81 mg tablet" value="${drug?drug.spec||'':''}"></div>
+      <div class="fg"><label class="fl">Dose schedule (select all that apply)</label><div class="period-grid">${pHTML}</div></div>
+      <div class="fg"><label class="fl">When to take it</label>
         <select class="fs" id="dm">
-          <option value="before" ${drug&&drug.meal==='before'?'selected':''}>饭前</option>
-          <option value="after"  ${!drug||drug.meal==='after'?'selected':''}>饭后</option>
-          <option value="with"   ${drug&&drug.meal==='with'?'selected':''}>随餐</option>
+          <option value="before" ${drug&&drug.meal==='before'?'selected':''}>Before meals</option>
+          <option value="after"  ${!drug||drug.meal==='after'?'selected':''}>After meals</option>
+          <option value="with"   ${drug&&drug.meal==='with'?'selected':''}>With food</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">当前库存（片）</label><input class="fi" type="number" id="di" placeholder="0" min="0" value="${drug?drug.inv:''}"></div>
-      <div class="fg"><label class="fl">备注（可选）</label><input class="fi" id="dn2" placeholder="服药注意事项" value="${drug?drug.notes||'':''}"></div>
-      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">取消</button><button class="btn-p" onclick="A.saveDrug()">保存</button></div>`;
+      <div class="fg"><label class="fl">Tablets on hand</label><input class="fi" type="number" id="di" placeholder="0" min="0" value="${drug?drug.inv:''}"></div>
+      <div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="dn2" placeholder="Directions or precautions" value="${drug?drug.notes||'':''}"></div>
+      <div class="btn-row"><button class="btn-s" onclick="A.closeSheet()">Cancel</button><button class="btn-p" onclick="A.saveDrug()">Save</button></div>`;
     this.showSheet();
   },
   pcChange(pid){
@@ -857,7 +859,7 @@ const A={
   },
   saveDrug(){
     const name=document.getElementById('dn').value.trim();
-    if(!name) return alert('请输入药品名称。');
+    if(!name) return alert('Enter a medication name.');
     const times=[];
     PERIODS.forEach(p=>{
       const cb=document.getElementById(`pc-${p.id}`);
@@ -867,7 +869,7 @@ const A={
         times.push(t);
       }
     });
-    if(!times.length) return alert('请至少勾选一个服药时间。');
+    if(!times.length) return alert('Select at least one dose time.');
     const drug={id:S.eDrug||uid(),name,spec:document.getElementById('ds').value.trim(),times,meal:document.getElementById('dm').value,inv:parseInt(document.getElementById('di').value)||0,notes:document.getElementById('dn2').value.trim()};
     if(S.eDrug){const i=S.drugs.findIndex(d=>d.id===S.eDrug);if(i>=0)S.drugs[i]=drug;} else S.drugs.push(drug);
     S.save(); this.closeSheet(); this.render();
@@ -885,9 +887,9 @@ const A={
     S.eDrug=S.eFup=S.eAppt=null;
   },
   notifToggle(){
-    if(!('Notification' in window)) return alert('此浏览器不支持通知功能。');
-    if(Notification.permission==='granted') return alert('通知权限已开启，服药时间到时会弹出提醒。');
-    Notification.requestPermission().then(p=>alert(p==='granted'?'通知已开启！':'请在浏览器设置中允许通知权限。'));
+    if(!('Notification' in window)) return alert('This browser does not support notifications.');
+    if(Notification.permission==='granted') return alert('Notifications are on. MedBuddy can remind you when a dose is due.');
+    Notification.requestPermission().then(p=>alert(p==='granted'?'Notifications are on.':'Allow notifications in your browser settings to receive dose reminders.'));
   },
   toggleFont(){
     S.fontLg=!S.fontLg;
