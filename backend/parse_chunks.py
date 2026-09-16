@@ -99,7 +99,7 @@ def split_large_chunk(text, max_chars=MAX_CHARS, overlap=OVERLAP):
     return sub_chunks
 
 
-def iter_chunks(node, ancestor_titles=None):
+def iter_chunks(node, drug_name, ancestor_titles=None):
     """Recursively walk the element tree, yielding a chunk for every <section>
     that has substantive text content.
 
@@ -113,7 +113,7 @@ def iter_chunks(node, ancestor_titles=None):
     for child in node:
         if child.tag != f"{{{NS}}}section":
             # Not a section — keep descending to find sections inside
-            yield from iter_chunks(child, ancestor_titles)
+            yield from iter_chunks(child, drug_name, ancestor_titles)
             continue
 
         code_el = child.find(f"{{{NS}}}code")
@@ -149,23 +149,27 @@ def iter_chunks(node, ancestor_titles=None):
         if text and len(text) >= MIN_CHARS:
             section_path = " > ".join(crumbs) if crumbs else "(no section)"
             for i, sub_text in enumerate(split_large_chunk(text)):
+                # 在 text 前面加上 [DRUG: section] 前缀，便于检索时识别药品和章节
+                # 例如: [METFORMIN: 7 DRUG INTERACTIONS] Table 2 presents...
+                # 这样 BGE embedding 会包含药品名和章节信息，提高检索准确性
+                text_with_title = f"[{drug_name.upper()}: {section_path}] {sub_text}" if drug_name else f"[{section_path}] {sub_text}"
                 yield {
                     "drug":        "",          # filled by caller
                     "loinc_code":  code,
                     "section":     section_path,
                     "chunk_index": i,
-                    "text":        sub_text,
-                    "char_count":  len(sub_text),
+                    "text":        text_with_title,
+                    "char_count":  len(text_with_title),
                 }
 
-        yield from iter_chunks(child, crumbs)
+        yield from iter_chunks(child, drug_name, crumbs)
 
 
 def parse_drug(xml_path, drug_name):
     tree = ET.parse(xml_path)
     root = tree.getroot()
     chunks = []
-    for chunk in iter_chunks(root):
+    for chunk in iter_chunks(root, drug_name):
         chunk["drug"] = drug_name
         chunks.append(chunk)
     return chunks

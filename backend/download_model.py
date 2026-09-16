@@ -1,6 +1,5 @@
 """
-Download BAAI/bge-small-en-v1.5 model files from hf-mirror.com using requests,
-bypassing the httpx/XET download issues with the system proxy.
+Download BAAI/bge-small-en-v1.5 model files from Hugging Face using requests.
 
 Run once:  python3 download_model.py
 Output:    ./bge_model/   (load with SentenceTransformer('./bge_model'))
@@ -8,7 +7,7 @@ Output:    ./bge_model/   (load with SentenceTransformer('./bge_model'))
 import os
 import requests
 
-MIRROR   = "https://hf-mirror.com"
+MIRROR   = os.environ.get("HF_ENDPOINT", "https://huggingface.co").rstrip("/")
 REPO     = "BAAI/bge-small-en-v1.5"
 OUT_DIR  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bge_model")
 
@@ -27,7 +26,6 @@ NEEDED = [
 ]
 
 session = requests.Session()
-session.trust_env = False   # bypass system proxy (127.0.0.1:1082 blocks hf redirects)
 session.headers["User-Agent"] = "python-requests"
 
 
