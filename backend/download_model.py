@@ -1,17 +1,15 @@
-"""
-Download BAAI/bge-small-en-v1.5 model files from Hugging Face using requests.
-
-Run once:  python3 download_model.py
-Output:    ./bge_model/   (load with SentenceTransformer('./bge_model'))
-"""
+"""Download BGE's ONNX model and tokenizer for the public API."""
 import os
 import requests
 
 MIRROR   = os.environ.get("HF_ENDPOINT", "https://huggingface.co").rstrip("/")
 REPO     = "BAAI/bge-small-en-v1.5"
-OUT_DIR  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bge_model")
+OUT_DIR  = os.environ.get(
+    "MEDBUDDY_BGE_DIR",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "bge_model"),
+)
 
-# Files needed for SentenceTransformer (skip large onnx/pytorch_model.bin)
+# Files needed for ONNX inference (skip PyTorch weights)
 NEEDED = [
     "config.json",
     "config_sentence_transformers.json",
@@ -22,7 +20,7 @@ NEEDED = [
     "tokenizer_config.json",
     "vocab.txt",
     "1_Pooling/config.json",
-    "model.safetensors",       # ~127 MB — the main model weights
+    "onnx/model.onnx",          # CPU inference without PyTorch on Render Free
 ]
 
 session = requests.Session()
@@ -57,7 +55,7 @@ def main():
     print(f"Downloading {REPO} → {OUT_DIR}\n")
     for f in NEEDED:
         download_file(f)
-    print(f"\nAll files ready. Load with:  SentenceTransformer('{OUT_DIR}')")
+    print(f"\nAll ONNX model files ready in {OUT_DIR}")
 
 
 if __name__ == "__main__":

@@ -31,7 +31,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from query import load_index_and_meta, load_bge_model, retrieve, build_context
+from query import load_index_and_meta, retrieve, build_context
+from onnx_query import load_bge_model
 
 app = FastAPI(title="MedBuddy RAG API", version="1.0")
 
